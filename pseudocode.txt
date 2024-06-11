@@ -1,0 +1,75 @@
+im building an inventory control system,
+
+MoSCoW:
+
+Deeply consider layout and end user functionality.
+Consider spa vs router, 	
+	Points of interest are bookmarking and layout.
+
+Must Have:
+	Front end UI for all elements.
+	User auth, and session management.
+	Be able to CRUD inventory items that have a:
+	Name,
+	Category,
+	Color,
+	location.
+	Maybe a quantity
+	SKU
+	Have multiple users with profiles
+	Mobile responsive
+	
+Should Have:
+	Admin and user roles and permissions
+		Admin not needing mobile responsive.
+	Inventory search and filtering
+	Create pack lists for other users and be able to fulfill the pack lists
+
+Could Have:
+	definitely have a graph!!!
+		Maybe as popups with buttons.
+	Have base level metrics:
+		Stocked units,
+		Received dates,
+		Turnover rate,
+		DOH average days inventory stays on hand
+		Associated costs
+		Supplier lead time
+		Supplier fill rate
+		Cogs
+		Pick and pack time
+		As graphs
+	User profile management
+        and stat tracking.
+	Password editing
+	
+
+Wish List	
+Printable inventory tags with QR codes.
+Able to scan with phone.:
+
+
+must have: front end ui for all elements.
+    what elements do I have? 
+        setting up a Spa with:
+            login pages
+            create account page 
+            page for managers to manage permissions and access of users.
+            i need a page to manage the CRUD of all inventory with search and dislpay by functionality
+            pick lists page.
+        
+            so at least: Login, create account, permissions, inventory
+        
+    
+
+6/11/24
+    i have the project going, currently i have a front end login setup with 
+    username and password.
+    i set it up with a submit button for an api call to the backend to use
+    the username and pass to get a token to the front.
+
+    on the backend Ive started setting up models, views, serializers and urls.
+        i set up the profile model with an is_staff bool.
+        the idea is to be able to display the users profiles by name and change
+        their permissions. maybe even have a user page with employee info and 
+        stats.

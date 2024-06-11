@@ -1,0 +1,4 @@
+first I should set  a login page that covers the whole site.
+    login will have to have some auth.
+after login route to a spa??
+second I should route my pages to the display plate for my spa elements.
