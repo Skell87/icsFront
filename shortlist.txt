@@ -1,0 +1,8 @@
+on the landing page, set it up so that if its mobile, it displays differently,
+    nathanwilson.dev 
+    css media queries, w3 schools
+    at a certain screen size, change styles.
+    modal display none until screen size
+
+on the create warehouse page, dont allow for empty fields, 
+make functionality to delete fields prior to submission.

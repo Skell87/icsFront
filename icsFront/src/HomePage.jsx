@@ -1,0 +1,81 @@
+// import Header from "./Header";
+import AddUser from "./AddUser";
+import CreateWarehouse from "./CreateWarehouse";
+import LandingPage from "./LandingPage";
+import ManageInventory from "./ManageInventory";
+import Metrics from "./Metrics";
+import PickLists from "./PickLists";
+import UserProfiles from "./UserProfiles";
+import { useState } from "react";
+
+function HomePage() {
+  const [view, setView] = useState("HomePage");
+
+  function displaySelector() {
+    switch (view) {
+      case "LandingPage":
+        return <LandingPage />;
+        break;
+      case "AddUser":
+        return <AddUser />;
+        break;
+      case "CreateWarehouse":
+        return <CreateWarehouse />;
+        break;
+      case "ManageInventory":
+        return <ManageInventory />;
+        break;
+      case "PickLists":
+        return <PickLists />;
+        break;
+      case "Metrics":
+        return <Metrics />;
+        break;
+      case "UserProfiles":
+        return <UserProfiles />;
+        break;
+      default:
+        return <LandingPage />;
+    }
+  }
+
+  const display = displaySelector();
+
+  //   if manager, display all,
+  //   if worker return less
+
+  return (
+    <>
+      <div>
+        <></>
+        <h1>this is where the navigation links will go.</h1>
+        <ul className="NavList">
+          <button className="button" onClick={() => setView("LandingPage")}>
+            Home
+          </button>
+          <button className="button" onClick={() => setView("AddUser")}>
+            Add User
+          </button>
+          <button className="button" onClick={() => setView("CreateWarehouse")}>
+            Create Warehouse
+          </button>
+          <button className="button" onClick={() => setView("ManageInventory")}>
+            Manage Inventory
+          </button>
+          <button className="button" onClick={() => setView("PickLists")}>
+            Pick Lists
+          </button>
+          <button className="button" onClick={() => setView("Metrics")}>
+            Metrics
+          </button>
+          <button className="button" onClick={() => setView("UserProfiles")}>
+            User Profiles
+          </button>
+        </ul>
+      </div>
+      <div className="updatePlate">{display}</div>
+    </>
+  );
+}
+
+export default HomePage;
