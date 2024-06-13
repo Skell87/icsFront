@@ -11,7 +11,7 @@ import {
 
 import { AuthContext, AuthContextProvider } from "./Context.jsx";
 import ErrorPage from "./ErrorPage.jsx";
-import Header from "./Header";
+// import Header from "./Header";
 import Login from "./Login.jsx";
 import HomePage from "./HomePage.jsx";
 

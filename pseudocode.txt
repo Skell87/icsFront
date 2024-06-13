@@ -73,3 +73,61 @@ must have: front end ui for all elements.
         the idea is to be able to display the users profiles by name and change
         their permissions. maybe even have a user page with employee info and 
         stats.
+
+    i currently have protected routes on the homepage and an active login page.
+    i saved progress and pushed to dev.
+    
+    im setting up a SPA for this on the homepage.
+    ill set up the structure of it then ill move on to the pages and their content
+
+    1. add user page,
+        lets those with admin status make users and set their permissions.
+
+    2. make the create warehouse page
+        this is where admins can add a virtual warehouse of goods.
+
+    3. inventory management page
+        here is where admins will be able to add inventory to the virtual
+        warehouses that theyve set up.
+        and set pick lists for their users, assigning to all or specific users.
+    
+    4. pick list page or checkout page. maybe both
+        this is where ill let users pick items assigned to them.
+        or be able to check out items.
+
+    5. metrics page
+        this is the page where ill show different warehouse metrics
+        also graphs i hope 
+    
+    6. user profiles page, this will let users access their profile and have
+        metrics attached.
+        admins can see all, users can see theirs.
+
+6/12/24
+    the user creation page is completed,
+        i had an issue with the form submission, it was recommended to use inputs from now on as forms suck. 
+        specifically it was reloading the page everytime we submitted, but in such a way that it was killing
+        the token before it got to the server. we set a prevent default function to stop this.
+        now i can create users and give them permissions, and fields clear out after submit.
+        newly created managers can make users
+        but users without the is_staff flag cannot.
+
+    next step is to setup the virtual warehouses.
+        these shouldnt have users attached to them.
+
+
+    i have front end sending custom table data in the form of an 
+    object with an array inside.
+    object {
+        name: (name of warehouse)
+        divisions : Array(number of divisions.)
+    }
+
+    i need to set up Urls, views, serializers and models.
+
+6/13/2024
+    im having issues with the VW, i have Json data sending but its 
+    not saving the way i need it to and im kind of lost on it,
+
+im currently in Queue
+    im goint to start on adding inventory.

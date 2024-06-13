@@ -8,7 +8,6 @@ function App() {
   return (
     <div>
       <Login />
-      <HomePage />
     </div>
   );
 }

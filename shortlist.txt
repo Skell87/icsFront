@@ -1,4 +1,8 @@
-first I should set  a login page that covers the whole site.
-    login will have to have some auth.
-after login route to a spa??
-second I should route my pages to the display plate for my spa elements.
+on the landing page, set it up so that if its mobile, it displays differently,
+    nathanwilson.dev 
+    css media queries, w3 schools
+    at a certain screen size, change styles.
+    modal display none until screen size
+
+on the create warehouse page, dont allow for empty fields, 
+make functionality to delete fields prior to submission.
