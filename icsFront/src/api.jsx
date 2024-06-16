@@ -96,28 +96,101 @@ export const registerWarehouse = ({ auth, name, divisions }) => {
 };
 
 // --------------------------------------------------------------------------------
-export const addItem = ({ auth, name, make, model, color, notes }) => {
-  console.log(name, make, model, color, notes);
+export const addItem = ({
+  auth,
+  name,
+  make,
+  model,
+  color,
+  notes,
+  quantity,
+  subsubsection,
+}) => {
+  console.log(name, make, model, color, notes, quantity, subsubsection);
   return axios({
     method: "post",
-    url: `${baseUrl}/add_inventory_items/`,
+    url: `${baseUrl}/inventory_detail_list/`,
     headers: {
       Authorization: `Bearer ${auth.accessToken}`,
     },
     data: {
-      name: name,
-      make: make,
-      model: model,
-      color: color,
-      notes: notes,
+      inventory_item: {
+        name: name || "_",
+        make: make || "_",
+        model: model || "_",
+        color: color || "_",
+        notes: notes || "_",
+      },
+      quantity: quantity || 0,
+      sub_sub_section: subsubsection,
     },
   })
     .then((response) => {
       console.log("item added after axios post", response);
-      return response;
+      return response.data;
     })
     .catch((error) => {
       console.log("error", error);
-      return error;
+      throw error;
+    });
+};
+
+export const getSection = ({ auth }) => {
+  return axios({
+    method: "get",
+    url: `${baseUrl}/add_warehouse_section/`,
+    headers: {
+      Authorization: `Bearer ${auth.accessToken}`,
+    },
+  })
+    .then((response) => {
+      console.log("section info", response.data);
+      return response;
+    })
+    .catch((error) => {
+      console.log("error getting section info", error);
+      return { data: [] };
+    });
+};
+
+export const getSubSections = ({ auth, sectionId }) => {
+  return axios({
+    method: "get",
+    url: `${baseUrl}/add_warehouse_sub_section/`,
+    headers: {
+      Authorization: `Bearer ${auth.accessToken}`,
+    },
+    params: {
+      section_id: sectionId,
+    },
+  })
+    .then((response) => {
+      console.log("subSection info", response.data);
+      return response;
+    })
+    .catch((error) => {
+      console.log("error getting sub section info", error);
+      return { data: [] };
+    });
+};
+
+export const getSubSubSections = ({ auth, subSectionId }) => {
+  return axios({
+    method: "get",
+    url: `${baseUrl}/add_warehouse_sub_sub_section/`,
+    headers: {
+      Authorization: `Bearer ${auth.accessToken}`,
+    },
+    params: {
+      sub_section_id: subSectionId,
+    },
+  })
+    .then((response) => {
+      console.log("sub sub section info", response.data);
+      return response;
+    })
+    .catch((error) => {
+      console.log("error getting sub sub section info", error);
+      return { data: [] };
     });
 };
