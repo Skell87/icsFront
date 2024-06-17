@@ -1,7 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "./Context";
 import Select from "react-dropdown-select";
-import { addItem, getSection, getSubSections, getSubSubSections } from "./api";
+import {
+  addItem,
+  getSection,
+  getSubSections,
+  getSubSubSections,
+  getInventoryItems,
+  deleteInventoryItem,
+} from "./api";
+import DeletePopup from "./DeletePopup";
 
 const ManageInventory = () => {
   const [name, setName] = useState("");
@@ -20,7 +28,12 @@ const ManageInventory = () => {
   const [subSubSections, setSubSubSections] = useState([]);
   const [selectedSubSubSection, setSelectedSubSubSection] = useState("");
 
+  const [inventoryItems, setInventoryItems] = useState([]);
+
   const { auth } = useContext(AuthContext);
+
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [currentItem, setCurrentItem] = useState(null);
 
   useEffect(() => {
     console.log("useeffect triggered");
@@ -69,6 +82,26 @@ const ManageInventory = () => {
     }
   }, [selectedSubSection, auth]);
 
+  useEffect(() => {
+    getInventoryItems({ auth })
+      .then((data) => {
+        setInventoryItems(data);
+      })
+      .catch((error) => {
+        console.error("error fetching items", error);
+      });
+  }, [auth]);
+
+  const fetchInventoryItems = () => {
+    getInventoryItems({ auth })
+      .then((data) => {
+        setInventoryItems(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching inventory items:", error);
+      });
+  };
+
   const handleSubmitInventoryItem = (e) => {
     console.log("button pressed");
     e.preventDefault();
@@ -93,7 +126,60 @@ const ManageInventory = () => {
       setSelectedSection("");
       setSelectedSubSection("");
       setSelectedSubSubSection("");
+      fetchInventoryItems();
     });
+  };
+
+  const handleDeleteClick = (item) => {
+    setCurrentItem(item);
+    setShowDeletePopup(true);
+  };
+
+  // const handleDelete = (deleteQuantity) => {
+  //   const newQuantity = currentItem.quantity - deleteQuantity;
+  //   if (newQuantity > 0) {
+  //     updateInventoryItem({
+  //       auth,
+  //       itemId: currentItem.id,
+  //       quantity: newQuantity,
+  //     }).then(() => {
+  //       fetchInventoryItems();
+  //     });
+  //   } else {
+  //     deleteInventoryItem({ auth, itemId: currentItem.id }).then(() => {
+  //       fetchInventoryItems();
+  //     });
+  //   }
+  // };
+
+  const handleDelete = (deleteQuantity) => {
+    // const newQuantity = currentItem.quantity - deleteQuantity;
+    const newQuantity = currentItem.quantity;
+    if (newQuantity > 0) {
+      deleteInventoryItem({
+        auth,
+        itemId: currentItem.id,
+        quantityToDelete: deleteQuantity,
+      }).then(() => {
+        fetchInventoryItems();
+        setShowDeletePopup(false); // Close popup after successful delete
+      });
+    } else {
+      deleteInventoryItem({ auth, itemId: currentItem.id }).then(() => {
+        fetchInventoryItems();
+        setShowDeletePopup(false); // Close popup after successful delete
+      });
+    }
+  };
+
+  const handleUpdate = (itemId) => {
+    console.log("update item button pressed", itemId);
+    fetchInventoryItems();
+  };
+
+  const handleAssign = (itemId) => {
+    console.log("assign item button pressed", itemId);
+    fetchInventoryItems();
   };
 
   return (
@@ -195,6 +281,53 @@ const ManageInventory = () => {
       <div>
         <button onClick={handleSubmitInventoryItem}>Add Inventory</button>
       </div>
+      <div>
+        <h1>Inventory Items</h1>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Make</th>
+              <th>Model</th>
+              <th>Color</th>
+              <th>section</th>
+              <th>subsection</th>
+              <th>SubSubSection</th>
+              <th>Quantity</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            {inventoryItems.map((item) => (
+              <tr key={item.id}>
+                <td>{item.inventory_item.name}</td>
+                <td>{item.inventory_item.make}</td>
+                <td>{item.inventory_item.model}</td>
+                <td>{item.inventory_item.color}</td>
+                <td>{item.sub_sub_section.sub_section.section.name}</td>
+                <td>{item.sub_sub_section.sub_section.name}</td>
+                <td>{item.sub_sub_section.name}</td>
+                <td>{item.quantity}</td>
+                <td>{item.inventory_item.notes}</td>
+                <td>
+                  <button onClick={() => handleDeleteClick(item)}>
+                    Delete
+                  </button>
+                  <button onClick={() => handleUpdate(item.id)}>Update</button>
+                  <button onClick={() => handleAssign(item.id)}>Assign</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {showDeletePopup && (
+        <DeletePopup
+          item={currentItem}
+          onClose={() => setShowDeletePopup(false)}
+          onDelete={handleDelete}
+        />
+      )}
     </div>
   );
 };

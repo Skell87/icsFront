@@ -135,6 +135,46 @@ export const addItem = ({
     });
 };
 
+// =========================================================================
+
+export const getInventoryItems = ({ auth }) => {
+  return axios({
+    method: "get",
+    url: `${baseUrl}/inventory_detail_list/`,
+    headers: {
+      Authorization: `Bearer ${auth.accessToken}`,
+    },
+  })
+    .then((response) => {
+      console.log("items recieved from back", response.data);
+
+      return response.data;
+    })
+    .catch((error) => {
+      console.log("error getting item data", error);
+      throw error;
+    });
+};
+
+export const deleteInventoryItem = ({ auth, itemId, quantityToDelete }) => {
+  const data = {
+    quantity_to_delete: quantityToDelete,
+  };
+
+  console.log("Data to send:", data);
+  return axios({
+    method: "delete",
+    url: `${baseUrl}/delete_inventory_item/${itemId}/`,
+    headers: {
+      Authorization: `Bearer ${auth.accessToken}`,
+    },
+    data: {
+      quantity_to_delete: quantityToDelete,
+    },
+  });
+};
+
+// =========================================================================
 export const getSection = ({ auth }) => {
   return axios({
     method: "get",
