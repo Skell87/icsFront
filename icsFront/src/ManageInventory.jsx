@@ -200,28 +200,3 @@ const ManageInventory = () => {
 };
 
 export default ManageInventory;
-
-// this is a selector for color that didnt seem to work as wanted.
-// i set an onchange text field to check to make sure im sending signal.
-{
-  /* <select>
-          <option value={color} onSelect={(e) => setColor(e.target.value)}>
-            Red
-          </option>
-          <option value={color} onSelect={(e) => setColor(e.target.value)}>
-            Orange
-          </option>
-          <option value={color} onSelect={(e) => setColor(e.target.value)}>
-            Yellow
-          </option>
-          <option value={color} onSelect={(e) => setColor(e.target.value)}>
-            Green
-          </option>
-          <option value={color} onSelect={(e) => setColor(e.target.value)}>
-            Blue
-          </option>
-          <option value={color} onSelect={(e) => setColor(e.target.value)}>
-            Purple
-          </option>
-        </select> */
-}
