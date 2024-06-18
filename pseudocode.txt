@@ -7,17 +7,20 @@ Consider spa vs router,
 	Points of interest are bookmarking and layout.
 
 Must Have:
-	Front end UI for all elements.
-	User auth, and session management.
-	Be able to CRUD inventory items that have a:
-	Name,
-	Category,
-	Color,
-	location.
-	Maybe a quantity
-	SKU
-	Have multiple users with profiles
-	Mobile responsive
+	[x]Front end UI for all elements.
+	[x]User auth,
+    []session management.
+	[]Be able to CRUD inventory items that have a:
+	    Name,
+	    Category,
+	    Color,
+	    location.
+	    Maybe a quantity
+	
+	[x]Have multiple users 
+    []with profiles
+	[]Mobile responsive
+    []have nameable 3 level warehouse to store items and CRUD
 	
 Should Have:
 	Admin and user roles and permissions
@@ -131,3 +134,19 @@ must have: front end ui for all elements.
 
 im currently in Queue
     im goint to start on adding inventory.
+
+6/14/2024
+    i got inventory to add and new models for the warehouse with section, subsection and subsub sections.
+    the goal now is to have drop downs that populate with the section, then the subsection, then the subsection.
+
+    my thoughts... i want to get the first section in. my thought is if i get it in the dropdown, can
+    i use a useeffect to trigger the axios to populate the subsection choices of the section, 
+    then the same for the subsubsection. provided thats done. then i need to work it together to add items.
+
+6/16/2024
+    i can create items. now I need to populate those items (read)
+     and be able to update and delete them.
+
+    implement a search by function for section, subsection, subsubsection
+
+    be able to create sections, subsections and subsubsections. 
