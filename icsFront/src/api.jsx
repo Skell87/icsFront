@@ -106,7 +106,19 @@ export const addItem = ({
   quantity,
   subsubsection,
 }) => {
-  console.log(name, make, model, color, notes, quantity, subsubsection);
+  const data = {
+    inventory_item: {
+      name: name,
+      make: make,
+      model: model,
+      color: color,
+      notes: notes,
+    },
+    quantity: quantity,
+    sub_sub_section: { id: subsubsection },
+  };
+
+  console.log("Data to send:", data);
   return axios({
     method: "post",
     url: `${baseUrl}/inventory_detail_list/`,
@@ -122,6 +134,7 @@ export const addItem = ({
         notes: notes || "_",
       },
       quantity: quantity || 0,
+      // sub_sub_section: { id: subsubsection },
       sub_sub_section: subsubsection,
     },
   })
@@ -156,6 +169,27 @@ export const getInventoryItems = ({ auth }) => {
     });
 };
 
+// this is a test
+// export const getInventoryItems = ({ auth }) => {
+//   return axios({
+//     method: "get",
+//     url: `${baseUrl}/get_inventory_details/`,
+//     headers: {
+//       Authorization: `Bearer ${auth.accessToken}`,
+//     },
+//   })
+//     .then((response) => {
+//       console.log("items recieved from back", response.data);
+
+//       return response.data;
+//     })
+//     .catch((error) => {
+//       console.log("error in test api", error);
+//       throw error;
+//     });
+// };
+// this is a test,
+
 export const deleteInventoryItem = ({ auth, itemId, quantityToDelete }) => {
   const data = {
     quantity_to_delete: quantityToDelete,
@@ -174,6 +208,24 @@ export const deleteInventoryItem = ({ auth, itemId, quantityToDelete }) => {
   });
 };
 
+export const updateInventoryItem = ({ auth, itemId, updates }) => {
+  return axios({
+    method: "put",
+    url: `${baseUrl}/update_inventory_item/${itemId}/`,
+    headers: {
+      Authorization: `Bearer ${auth.accessToken}`,
+    },
+    data: updates,
+  })
+    .then((response) => {
+      console.log("item updated", response.data);
+      return response.data;
+    })
+    .catch((error) => {
+      console.error("error updating item", error);
+      throw error;
+    });
+};
 // =========================================================================
 export const getSection = ({ auth }) => {
   return axios({

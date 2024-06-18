@@ -6,10 +6,21 @@ import ManageInventory from "./ManageInventory";
 import Metrics from "./Metrics";
 import PickLists from "./PickLists";
 import UserProfiles from "./UserProfiles";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "./Context";
 
 function HomePage() {
   const [view, setView] = useState("HomePage");
+  const { auth } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    navigate("/login");
+    // delete accesstoken
+    // redirect to login.
+  };
 
   function displaySelector() {
     switch (view) {
@@ -70,6 +81,9 @@ function HomePage() {
           </button>
           <button className="button" onClick={() => setView("UserProfiles")}>
             User Profiles
+          </button>
+          <button className="button" onClick={() => handleLogout()}>
+            Logout
           </button>
         </ul>
       </div>

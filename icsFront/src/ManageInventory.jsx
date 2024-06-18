@@ -8,8 +8,12 @@ import {
   getSubSubSections,
   getInventoryItems,
   deleteInventoryItem,
+  updateInventoryItem,
 } from "./api";
 import DeletePopup from "./DeletePopup";
+import UpdatePrompt from "./UpdatePopup";
+import UpdatePopup from "./UpdatePopup";
+import { Axios } from "axios";
 
 const ManageInventory = () => {
   const [name, setName] = useState("");
@@ -33,6 +37,7 @@ const ManageInventory = () => {
   const { auth } = useContext(AuthContext);
 
   const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [showUpdatePopup, setShowUpdatePopup] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
 
   useEffect(() => {
@@ -83,18 +88,22 @@ const ManageInventory = () => {
   }, [selectedSubSection, auth]);
 
   useEffect(() => {
-    getInventoryItems({ auth })
-      .then((data) => {
-        setInventoryItems(data);
-      })
-      .catch((error) => {
-        console.error("error fetching items", error);
-      });
+    if (auth) {
+      fetchInventoryItems();
+    }
+    // getInventoryItems({ auth })
+    //   .then((data) => {
+    //     setInventoryItems(data);
+    //   })
+    //   .catch((error) => {
+    //     console.error("error fetching items", error);
+    //   });
   }, [auth]);
 
   const fetchInventoryItems = () => {
     getInventoryItems({ auth })
       .then((data) => {
+        console.log("HERE WE BE WITH INVENTORY THREE: ", data);
         setInventoryItems(data);
       })
       .catch((error) => {
@@ -135,23 +144,6 @@ const ManageInventory = () => {
     setShowDeletePopup(true);
   };
 
-  // const handleDelete = (deleteQuantity) => {
-  //   const newQuantity = currentItem.quantity - deleteQuantity;
-  //   if (newQuantity > 0) {
-  //     updateInventoryItem({
-  //       auth,
-  //       itemId: currentItem.id,
-  //       quantity: newQuantity,
-  //     }).then(() => {
-  //       fetchInventoryItems();
-  //     });
-  //   } else {
-  //     deleteInventoryItem({ auth, itemId: currentItem.id }).then(() => {
-  //       fetchInventoryItems();
-  //     });
-  //   }
-  // };
-
   const handleDelete = (deleteQuantity) => {
     // const newQuantity = currentItem.quantity - deleteQuantity;
     const newQuantity = currentItem.quantity;
@@ -172,15 +164,37 @@ const ManageInventory = () => {
     }
   };
 
-  const handleUpdate = (itemId) => {
-    console.log("update item button pressed", itemId);
-    fetchInventoryItems();
-  };
-
   const handleAssign = (itemId) => {
     console.log("assign item button pressed", itemId);
     fetchInventoryItems();
   };
+
+  // ==========================================================
+  // update functions
+  const handleUpdateClick = (item) => {
+    console.log("update item button pressed", item);
+    setCurrentItem(item);
+    setShowUpdatePopup(true);
+  };
+
+  const handleConfirmUpdate = (updatedItem) => {
+    console.log("Data to be sent:", updatedItem);
+    updateInventoryItem({
+      auth,
+      item: {
+        ...updatedItem,
+        subsubsection: parseInt(updatedItem.subSubSection),
+      },
+    })
+      .then(() => {
+        fetchInventoryItems();
+        setShowUpdatePopup(false);
+      })
+      .catch((error) => {
+        console.error("error updating invenrory item", error);
+      });
+  };
+  // ==========================================================
 
   return (
     <div>
@@ -298,26 +312,31 @@ const ManageInventory = () => {
             </tr>
           </thead>
           <tbody>
-            {inventoryItems.map((item) => (
-              <tr key={item.id}>
-                <td>{item.inventory_item.name}</td>
-                <td>{item.inventory_item.make}</td>
-                <td>{item.inventory_item.model}</td>
-                <td>{item.inventory_item.color}</td>
-                <td>{item.sub_sub_section.sub_section.section.name}</td>
-                <td>{item.sub_sub_section.sub_section.name}</td>
-                <td>{item.sub_sub_section.name}</td>
-                <td>{item.quantity}</td>
-                <td>{item.inventory_item.notes}</td>
-                <td>
-                  <button onClick={() => handleDeleteClick(item)}>
-                    Delete
-                  </button>
-                  <button onClick={() => handleUpdate(item.id)}>Update</button>
-                  <button onClick={() => handleAssign(item.id)}>Assign</button>
-                </td>
-              </tr>
-            ))}
+            {inventoryItems.length > 0 &&
+              inventoryItems.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.inventory_item.name}</td>
+                  <td>{item.inventory_item.make}</td>
+                  <td>{item.inventory_item.model}</td>
+                  <td>{item.inventory_item.color}</td>
+                  {/* <td>{item.sub_sub_section.sub_section.section.name}</td>
+                  <td>{item.sub_sub_section.sub_section.name}</td> */}
+                  <td>{item.sub_sub_section.name}</td>
+                  <td>{item.quantity}</td>
+                  <td>{item.inventory_item.notes}</td>
+                  <td>
+                    <button onClick={() => handleDeleteClick(item)}>
+                      Delete
+                    </button>
+                    <button onClick={() => handleUpdateClick(item.id)}>
+                      Update
+                    </button>
+                    <button onClick={() => handleAssign(item.id)}>
+                      Assign
+                    </button>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
@@ -326,6 +345,13 @@ const ManageInventory = () => {
           item={currentItem}
           onClose={() => setShowDeletePopup(false)}
           onDelete={handleDelete}
+        />
+      )}
+      {showUpdatePopup && (
+        <UpdatePopup
+          item={currentItem}
+          onClose={() => setShowUpdatePopup(false)}
+          onConfirmUpdate={handleConfirmUpdate}
         />
       )}
     </div>
