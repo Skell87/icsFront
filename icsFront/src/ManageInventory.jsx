@@ -123,7 +123,7 @@ const ManageInventory = () => {
       color,
       notes,
       quantity,
-      subsubsection: parseInt(selectedSubSubSection),
+      subsubsection: selectedSubSubSection,
     }).then((response) => {
       console.log("item added to inventory", response);
       setName("");
@@ -319,8 +319,8 @@ const ManageInventory = () => {
                   <td>{item.inventory_item.make}</td>
                   <td>{item.inventory_item.model}</td>
                   <td>{item.inventory_item.color}</td>
-                  {/* <td>{item.sub_sub_section.sub_section.section.name}</td>
-                  <td>{item.sub_sub_section.sub_section.name}</td> */}
+                  <td>{item.sub_sub_section.sub_section.section.name}</td>
+                  <td>{item.sub_sub_section.sub_section.name}</td>
                   <td>{item.sub_sub_section.name}</td>
                   <td>{item.quantity}</td>
                   <td>{item.inventory_item.notes}</td>

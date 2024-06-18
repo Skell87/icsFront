@@ -106,19 +106,19 @@ export const addItem = ({
   quantity,
   subsubsection,
 }) => {
-  const data = {
-    inventory_item: {
-      name: name,
-      make: make,
-      model: model,
-      color: color,
-      notes: notes,
-    },
-    quantity: quantity,
-    sub_sub_section: { id: subsubsection },
-  };
+  // const data = {
+  //   inventory_item: {
+  //     name: name,
+  //     make: make,
+  //     model: model,
+  //     color: color,
+  //     notes: notes,
+  //   },
+  //   quantity: quantity,
+  // sub_sub_section: subsubsection,
+  // };
 
-  console.log("Data to send:", data);
+  console.log("subsubsection:", subsubsection);
   return axios({
     method: "post",
     url: `${baseUrl}/inventory_detail_list/`,
@@ -135,7 +135,7 @@ export const addItem = ({
       },
       quantity: quantity || 0,
       // sub_sub_section: { id: subsubsection },
-      sub_sub_section: subsubsection,
+      sub_sub_section: parseInt(subsubsection),
     },
   })
     .then((response) => {
