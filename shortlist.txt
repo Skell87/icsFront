@@ -6,3 +6,5 @@ on the landing page, set it up so that if its mobile, it displays differently,
 
 on the create warehouse page, dont allow for empty fields, 
 make functionality to delete fields prior to submission.
+
+on the inventory create screen, make it so you have to have a subsubsection.
