@@ -9,7 +9,8 @@ Consider spa vs router,
 Must Have:
 	[x]Front end UI for all elements.
 	[x]User auth,
-    []session management.
+    [x]session management.
+        logout and token expiry
 	[]Be able to CRUD inventory items that have a:
 	    Name,
 	    Category,
@@ -19,8 +20,14 @@ Must Have:
 	
 	[x]Have multiple users 
     []with profiles
+        i have profiles on the backend, just need to display them
 	[]Mobile responsive
+        this can happen on the weekend.
     []have nameable 3 level warehouse to store items and CRUD
+        i need to display the warehouses ive made and their relationships.
+        i need to be able to make warehouses from the front end
+        i need to be able to delete warehouses from the front
+        i need to be able to update the names of the warehouses from the front.
 	
 Should Have:
 	Admin and user roles and permissions
