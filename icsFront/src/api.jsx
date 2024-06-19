@@ -1,8 +1,11 @@
 import axios from "axios";
 
-const baseUrl = "http://127.0.0.1:8000";
-// const baseUrl = "https://ics-back.fly.dev/";
+// localhost url
+// const baseUrl = "http://127.0.0.1:8000";
+// fly url
+const baseUrl = "https://ics-back.fly.dev";
 
+// url switcher
 // const baseUrl = import.meta.env.VITE_BASE_URL;
 // console.log("base url", baseUrl);
 
@@ -80,13 +83,12 @@ export const registerUser = ({
 export const registerWarehouse = ({ auth, name, divisions }) => {
   return axios({
     method: "post",
-    url: `${baseUrl}/register_warehouse/`,
+    url: `${baseUrl}/add_warehouse_section/`,
     headers: {
       Authorization: `Bearer ${auth.accessToken}`,
     },
     data: {
       name: name,
-      divisions: divisions,
     },
   })
     .then((response) => {
@@ -110,18 +112,6 @@ export const addItem = ({
   quantity,
   subsubsection,
 }) => {
-  // const data = {
-  //   inventory_item: {
-  //     name: name,
-  //     make: make,
-  //     model: model,
-  //     color: color,
-  //     notes: notes,
-  //   },
-  //   quantity: quantity,
-  // sub_sub_section: subsubsection,
-  // };
-
   console.log("subsubsection:", subsubsection);
   return axios({
     method: "post",
@@ -172,27 +162,6 @@ export const getInventoryItems = ({ auth }) => {
       throw error;
     });
 };
-
-// this is a test
-// export const getInventoryItems = ({ auth }) => {
-//   return axios({
-//     method: "get",
-//     url: `${baseUrl}/get_inventory_details/`,
-//     headers: {
-//       Authorization: `Bearer ${auth.accessToken}`,
-//     },
-//   })
-//     .then((response) => {
-//       console.log("items recieved from back", response.data);
-
-//       return response.data;
-//     })
-//     .catch((error) => {
-//       console.log("error in test api", error);
-//       throw error;
-//     });
-// };
-// this is a test,
 
 export const deleteInventoryItem = ({ auth, itemId, quantityToDelete }) => {
   const data = {

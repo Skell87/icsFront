@@ -12,3 +12,23 @@
 .smoke {
   color: black;
 }
+
+.popup {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 100px;
+  background-color: rgb(253, 253, 253);
+ 
+}
+
+.popup-inner {
+  background-color: rgb(251, 251, 251);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  width: auto;
+  max-width: 300px;
+}
