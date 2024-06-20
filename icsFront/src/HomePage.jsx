@@ -68,7 +68,7 @@ function HomePage() {
             Add User
           </button>
           <button className="button" onClick={() => setView("CreateWarehouse")}>
-            Create Warehouse
+            Manage Warehouse
           </button>
           <button className="button" onClick={() => setView("ManageInventory")}>
             Manage Inventory
