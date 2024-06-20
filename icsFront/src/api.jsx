@@ -1,9 +1,9 @@
 import axios from "axios";
 
 // localhost url
-// const baseUrl = "http://127.0.0.1:8000";
+const baseUrl = "http://127.0.0.1:8000";
 // fly url
-const baseUrl = "https://ics-back.fly.dev";
+// const baseUrl = "https://ics-back.fly.dev";
 
 // url switcher
 // const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -79,6 +79,8 @@ export const registerUser = ({
       console.log("ERROR CONFIG: ", error.config); // Logging error config
     });
 };
+// ===================================================================================
+// warehouse creators:
 
 export const registerWarehouse = ({ auth, name, divisions }) => {
   return axios({
@@ -97,6 +99,98 @@ export const registerWarehouse = ({ auth, name, divisions }) => {
     })
     .catch((error) => {
       console.log("error", error);
+      return error;
+    });
+};
+
+export const registerSubWarehouse = ({ auth, name, sectionId }) => {
+  return axios({
+    method: "post",
+    url: `${baseUrl}/add_warehouse_sub_section/`,
+    headers: {
+      Authorization: `Bearer ${auth.accessToken}`,
+    },
+    data: {
+      name: name,
+      section: sectionId,
+    },
+  })
+    .then((response) => {
+      console.log("Subsection registered", response.data);
+      return response;
+    })
+    .catch((error) => {
+      console.log("error registering subsection", error);
+      return error;
+    });
+};
+
+export const registerSubSubWarehouse = ({ auth, name, subSectionId }) => {
+  return axios({
+    method: "post",
+    url: `${baseUrl}/add_warehouse_sub_sub_section/`,
+    headers: {
+      Authorization: `Bearer ${auth.accessToken}`,
+    },
+    data: {
+      name: name,
+      sub_section: subSectionId, // Ensure this matches the field expected by the Django model
+    },
+  })
+    .then((response) => {
+      console.log("SubSubsection registered", response.data);
+      return response;
+    })
+    .catch((error) => {
+      console.log("Error registering subsubsection", error);
+      return error;
+    });
+};
+// ================================================================================
+// warehouse deletion:
+
+export const deleteSection = ({ auth, sectionId }) => {
+  return axios({
+    method: "delete",
+    url: `${baseUrl}/delete_warehouse_section/${sectionId}/`,
+    headers: {
+      Authorization: `Bearer ${auth.accessToken}`,
+    },
+  })
+    .then((response) => response)
+    .catch((error) => {
+      console.log("Error deleting section", error);
+      return error;
+    });
+};
+
+export const deleteSubSection = ({ auth, subSectionId }) => {
+  return axios({
+    method: "delete",
+    url: `${baseUrl}/delete_warehouse_sub_section/${subSectionId}`,
+    headers: {
+      Authorization: `Bearer ${auth.accessToken}`,
+    },
+  })
+    .then((response) => response)
+    .catch((error) => {
+      console.log("Error deleting sub section", error);
+      return error;
+    });
+};
+
+export const deleteSubSubSection = ({ auth, subSubSectionId }) => {
+  console.log("subsubsubsub", subSubSectionId);
+  return axios({
+    method: "delete",
+    url: `${baseUrl}/delete_warehouse_sub_sub_section/${subSubSectionId}`,
+    headers: {
+      Authorization: `Bearer ${auth.accessToken}`,
+    },
+  })
+    .then((response) => response)
+    .catch((error) => {
+      console.log("error deleting sub sub section", error);
       return error;
     });
 };

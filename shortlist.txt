@@ -8,3 +8,15 @@ on the create warehouse page, dont allow for empty fields,
 make functionality to delete fields prior to submission.
 
 on the inventory create screen, make it so you have to have a subsubsection.
+
+
+on the create warehouse tab (calling that manage warehouse.)
+im going to have buttons under add warehouse called delete warehouse.
+click button, popup emerges
+has "select a section" delete or close buttons.
+if section is selected and click delete, it goes bye bye
+
+for sub section, select the section
+populated subsection, select it, delete, go bye bye.
+
+for subsubsection, select section, subsection, populate sss, delete, go bye bye
