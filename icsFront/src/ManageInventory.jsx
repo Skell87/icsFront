@@ -145,7 +145,6 @@ const ManageInventory = () => {
   };
 
   const handleDelete = (deleteQuantity) => {
-    // const newQuantity = currentItem.quantity - deleteQuantity;
     const newQuantity = currentItem.quantity;
     if (newQuantity > 0) {
       deleteInventoryItem({
@@ -154,19 +153,14 @@ const ManageInventory = () => {
         quantityToDelete: deleteQuantity,
       }).then(() => {
         fetchInventoryItems();
-        setShowDeletePopup(false); // Close popup after successful delete
+        setShowDeletePopup(false);
       });
     } else {
       deleteInventoryItem({ auth, itemId: currentItem.id }).then(() => {
         fetchInventoryItems();
-        setShowDeletePopup(false); // Close popup after successful delete
+        setShowDeletePopup(false);
       });
     }
-  };
-
-  const handleAssign = (itemId) => {
-    console.log("assign item button pressed", itemId);
-    fetchInventoryItems();
   };
 
   // ==========================================================
@@ -177,23 +171,47 @@ const ManageInventory = () => {
     setShowUpdatePopup(true);
   };
 
+  // const handleConfirmUpdate = (updatedItem) => {
+  //   console.log("Data to be sent:", updatedItem);
+  //   updateInventoryItem({
+  //     auth,
+  //     item: {
+  //       ...updatedItem,
+  //       subsubsection: parseInt(updatedItem.subSubSection),
+  //     },
+  //   })
+  //     .then(() => {
+  //       fetchInventoryItems();
+  //       setShowUpdatePopup(false);
+  //     })
+  //     .catch((error) => {
+  //       console.error("error updating invenrory item", error);
+  //     });
+  // };
+
   const handleConfirmUpdate = (updatedItem) => {
     console.log("Data to be sent:", updatedItem);
+    console.log("subsubsection before parse:", updatedItem.subsubsection);
+    // Ensure 'id' is extracted from the 'updatedItem' and passed separately
+    const subSubSectionId = parseInt(updatedItem.subsubsection, 10);
+    console.log("parsed subsubsection id", subSubSectionId);
     updateInventoryItem({
       auth,
-      item: {
+      itemId: updatedItem.id, // Correctly passing itemId as a separate parameter
+      updates: {
         ...updatedItem,
-        subsubsection: parseInt(updatedItem.subSubSection),
+        subsubsection: subSubSectionId,
       },
     })
       .then(() => {
-        fetchInventoryItems();
-        setShowUpdatePopup(false);
+        fetchInventoryItems(); // Refresh the inventory items displayed
+        setShowUpdatePopup(false); // Close the update popup
       })
       .catch((error) => {
-        console.error("error updating invenrory item", error);
+        console.error("error updating inventory item", error);
       });
   };
+
   // ==========================================================
 
   return (
@@ -328,11 +346,8 @@ const ManageInventory = () => {
                     <button onClick={() => handleDeleteClick(item)}>
                       Delete
                     </button>
-                    <button onClick={() => handleUpdateClick(item.id)}>
+                    <button onClick={() => handleUpdateClick(item)}>
                       Update
-                    </button>
-                    <button onClick={() => handleAssign(item.id)}>
-                      Assign
                     </button>
                   </td>
                 </tr>

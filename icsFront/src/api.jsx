@@ -258,6 +258,7 @@ export const getInventoryItems = ({ auth }) => {
 };
 
 export const deleteInventoryItem = ({ auth, itemId, quantityToDelete }) => {
+  console.log("delete inventory item triggered");
   const data = {
     quantity_to_delete: quantityToDelete,
   };
@@ -276,6 +277,8 @@ export const deleteInventoryItem = ({ auth, itemId, quantityToDelete }) => {
 };
 
 export const updateInventoryItem = ({ auth, itemId, updates }) => {
+  console.log("updateInventoryItem triggered with id", updates, itemId);
+
   return axios({
     method: "put",
     url: `${baseUrl}/update_inventory_item/${itemId}/`,
@@ -313,6 +316,7 @@ export const getSection = ({ auth }) => {
 };
 
 export const getSubSections = ({ auth, sectionId }) => {
+  console.log("Sending section ID:", sectionId);
   return axios({
     method: "get",
     url: `${baseUrl}/add_warehouse_sub_section/`,
