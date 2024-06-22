@@ -13,6 +13,7 @@ import React, { useState, useContext } from "react";
 import { registerUser } from "./api";
 import axios from "axios";
 import { AuthContext } from "./Context";
+import { useNavigate } from "react-router-dom";
 
 const AddUser = () => {
   const [username, setUsername] = useState("");
@@ -22,6 +23,7 @@ const AddUser = () => {
   const [email, setEmail] = useState("");
   const [isStaff, setIsStaff] = useState(false);
   const { auth } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleSubmitCreateUser = (e) => {
     e.preventDefault();
@@ -43,6 +45,7 @@ const AddUser = () => {
       setLastName("");
       setEmail("");
       setIsStaff(false);
+      navigate("/Login");
     });
   };
 
@@ -88,14 +91,14 @@ const AddUser = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
       </div>
-      <div>
+      {/* <div>
         <label>Manager Status</label>
         <input
           type="checkbox"
           checked={isStaff}
           onChange={(e) => setIsStaff(e.target.checked)}
         />
-      </div>
+      </div> */}
       <button type="submit">Register</button>
     </form>
   );

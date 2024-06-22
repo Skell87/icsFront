@@ -1,20 +1,27 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "./Context";
 import { getToken } from "./api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function Login() {
   const { auth } = useContext(AuthContext);
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(undefined);
   const navigate = useNavigate();
 
   const submit = () => {
-    getToken({ username, password }).then((response) => {
-      console.log(response.data);
-      auth.setAccessToken(response.data.access);
-    });
-    navigate("/HomePage");
+    getToken({ username, password })
+      .then((response) => {
+        console.log(response.data);
+        auth.setAccessToken(response.data.access);
+        navigate("/HomePage");
+        setErrorMessage(undefined);
+      })
+      .catch((error) => {
+        console.log("error loging in: ", error);
+        setErrorMessage("There was an error logging in.");
+      });
   };
 
   return (
@@ -36,7 +43,11 @@ function Login() {
         <button className="button" onClick={() => submit()}>
           Log in.
         </button>
+        <div>
+          <Link to="/AddUser">Dont have an account? Sign up here!</Link>
+        </div>
       </div>
+      {errorMessage && <h3>{errorMessage}</h3>}
     </div>
   );
 }

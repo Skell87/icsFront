@@ -27,23 +27,11 @@ function HomePage() {
       case "LandingPage":
         return <LandingPage />;
         break;
-      case "AddUser":
-        return <AddUser />;
-        break;
       case "CreateWarehouse":
         return <CreateWarehouse />;
         break;
       case "ManageInventory":
         return <ManageInventory />;
-        break;
-      case "PickLists":
-        return <PickLists />;
-        break;
-      case "Metrics":
-        return <Metrics />;
-        break;
-      case "UserProfiles":
-        return <UserProfiles />;
         break;
       default:
         return <LandingPage />;
@@ -64,23 +52,11 @@ function HomePage() {
           <button className="button" onClick={() => setView("LandingPage")}>
             Home
           </button>
-          <button className="button" onClick={() => setView("AddUser")}>
-            Add User
-          </button>
           <button className="button" onClick={() => setView("CreateWarehouse")}>
             Manage Warehouse
           </button>
           <button className="button" onClick={() => setView("ManageInventory")}>
             Manage Inventory
-          </button>
-          <button className="button" onClick={() => setView("PickLists")}>
-            Pick Lists
-          </button>
-          <button className="button" onClick={() => setView("Metrics")}>
-            Metrics
-          </button>
-          <button className="button" onClick={() => setView("UserProfiles")}>
-            User Profiles
           </button>
           <button className="button" onClick={() => handleLogout()}>
             Logout

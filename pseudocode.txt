@@ -11,7 +11,7 @@ Must Have:
 	[x]User auth,
     [x]session management.
         logout and token expiry
-	[]Be able to CRUD inventory items that have a:
+	[x]Be able to CRUD inventory items that have a:
 	    Name,
 	    Category,
 	    Color,
@@ -23,11 +23,11 @@ Must Have:
         i have profiles on the backend, just need to display them
 	[]Mobile responsive
         this can happen on the weekend.
-    []have nameable 3 level warehouse to store items and CRUD
-        i need to display the warehouses ive made and their relationships.
+    [x]have nameable 3 level warehouse to store items and CRUD
+        
         i need to be able to make warehouses from the front end
         i need to be able to delete warehouses from the front
-        i need to be able to update the names of the warehouses from the front.
+        
 	
 Should Have:
 	Admin and user roles and permissions

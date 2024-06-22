@@ -20,3 +20,6 @@ for sub section, select the section
 populated subsection, select it, delete, go bye bye.
 
 for subsubsection, select section, subsection, populate sss, delete, go bye bye
+
+
+on update item popup, set placeholder to be the item names etc, that they already are.
