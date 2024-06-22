@@ -4,7 +4,7 @@ import axios from "axios";
 // const baseUrl = "http://127.0.0.1:8000";
 // fly url
 const baseUrl = "https://ics-back.fly.dev";
-const changed = changed;
+
 // url switcher
 // const baseUrl = import.meta.env.VITE_BASE_URL;
 // console.log("base url", baseUrl);
