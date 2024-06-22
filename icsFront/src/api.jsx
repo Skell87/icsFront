@@ -1,9 +1,9 @@
 import axios from "axios";
 
 // localhost url
-// const baseUrl = "http://127.0.0.1:8000";
+const baseUrl = "http://127.0.0.1:8000";
 // fly url
-const baseUrl = "https://ics-back.fly.dev";
+// const baseUrl = "https://ics-back.fly.dev";
 
 // url switcher
 // const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -32,7 +32,6 @@ export const registerUser = ({
   firstName,
   lastName,
   email,
-  isStaff,
 }) => {
   console.log("auth", auth);
   console.log("data", {
@@ -41,21 +40,16 @@ export const registerUser = ({
     first_name: firstName,
     last_name: lastName,
     email,
-    is_staff: isStaff,
   });
   return axios({
     method: "post",
     url: `${baseUrl}/register_user/`,
-    headers: {
-      Authorization: `Bearer ${auth.accessToken}`,
-    },
     data: {
       username,
       password,
       first_name: firstName,
       last_name: lastName,
       email,
-      is_staff: isStaff,
     },
   })
     .then((response) => {

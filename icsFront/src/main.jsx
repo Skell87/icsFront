@@ -14,6 +14,7 @@ import ErrorPage from "./ErrorPage.jsx";
 // import Header from "./Header";
 import Login from "./Login.jsx";
 import HomePage from "./HomePage.jsx";
+import AddUser from "./AddUser.jsx";
 
 const Protected = ({ component }) => {
   const { auth } = useContext(AuthContext);
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
       {
         path: "/HomePage",
         element: <Protected component={<HomePage />} />,
+      },
+      {
+        path: "/AddUser",
+        element: <AddUser />,
       },
     ],
   },
