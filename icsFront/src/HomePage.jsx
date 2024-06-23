@@ -14,12 +14,20 @@ function HomePage() {
   const [view, setView] = useState("HomePage");
   const { auth } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     navigate("/login");
-    // delete accesstoken
-    // redirect to login.
+  };
+
+  const handleMenuItemClick = (view) => {
+    setView(view);
+    setIsMenuOpen(false);
   };
 
   function displaySelector() {
@@ -40,32 +48,47 @@ function HomePage() {
 
   const display = displaySelector();
 
-  //   if manager, display all,
-  //   if worker return less
-
   return (
     <>
       <div>
         <></>
-        <h1>this is where the navigation links will go.</h1>
-        <ul className="NavList">
-          <button className="button" onClick={() => setView("LandingPage")}>
+        <div className="spa-header">
+          <img
+            className="header-logo"
+            src="/src/assets/logo.png"
+            alt="a logo of a mule with a box"
+          ></img>
+          <h2 className="site-title">Pack Mule</h2>
+          <div className="hamburger-menu" onClick={toggleMenu}>
+            &#9776;
+          </div>
+        </div>
+        <ul className={`nav-list ${isMenuOpen ? "open" : ""}`}>
+          <button
+            className="nav-button"
+            onClick={() => handleMenuItemClick("LandingPage")}
+          >
             Home
           </button>
-          <button className="button" onClick={() => setView("CreateWarehouse")}>
+          <button
+            className="nav-button"
+            onClick={() => handleMenuItemClick("CreateWarehouse")}
+          >
             Manage Warehouse
           </button>
-          <button className="button" onClick={() => setView("ManageInventory")}>
+          <button
+            className="nav-button"
+            onClick={() => handleMenuItemClick("ManageInventory")}
+          >
             Manage Inventory
           </button>
-          <button className="button" onClick={() => handleLogout()}>
+          <button className="nav-button" onClick={() => handleLogout()}>
             Logout
           </button>
         </ul>
       </div>
-      <div className="updatePlate">{display}</div>
+      <div className="update-plate">{display}</div>
     </>
   );
 }
-
 export default HomePage;

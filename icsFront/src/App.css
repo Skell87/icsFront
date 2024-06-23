@@ -1,16 +1,29 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: .5rem;
   text-align: center;
+  
+  
 }
 
 #loginPage {
-  color: black;
+  color: rgb(255, 255, 255);
+}
+
+.body {
+  background-color: aquamarine;
+  max-width: 100vh;
+  max-height: 100vh;
 }
 
 .smoke {
   color: black;
+}
+
+.logo {
+  height: 250px;
+  width: 250px;
 }
 
 .popup {
@@ -31,4 +44,384 @@
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
   width: auto;
   max-width: 300px;
+}
+
+#loginTitle {
+  font-family: 'Lilita';
+  font-weight: bold;
+  margin: 0;
+  font-size: 60px;
+  text-decoration: underline;
+}
+
+#loginDesc {
+  font-family: 'Lilita';
+  margin: 0;
+  font-size: 20px;
+  font-stretch:extra-expanded;
+}
+
+#loginText {
+  margin-top: 10%;
+  margin-bottom: 3%;
+  text-align: center;
+}
+
+.createUser {
+  display: flex;
+  justify-content: left;
+}
+@font-face {
+  font-family: 'Lilita';
+  src: url('/src/assets/LilitaOne-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+.form-container {
+  width: 90%;
+  max-width: 400px;
+  margin: 1rem auto;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  
+}
+
+.form-title {
+  font-family: 'Lilita', sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  margin-top: 0.1rem;
+  color: #3a7af1;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+  text-align: left;
+  
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.9rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #0044cc;
+}
+
+.form-button {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  color: #0044cc; 
+  background-color: white;
+  border: 2px solid #0044cc;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.form-button:hover {
+  background-color: #0044cc;
+  color: white;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, .015), 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.login-button {
+  width: 30%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  color: #0044cc; 
+  background-color: white;
+  border: 2px solid #0044cc;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.login-button:hover {
+  background-color: #0044cc;
+  color: white;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, .015), 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.spa-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* padding: 1rem;
+  margin-top: 0%;
+  margin-bottom: 0%; */
+}
+
+.hamburger-menu {
+  font-size: 2rem;
+  cursor: pointer;
+  display: block;
+}
+
+.site-title {
+  font-family: 'Lilita', sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  margin: 0;
+  margin-right: 1rem;
+}
+
+.header-logo {
+  height: 60px; /* Adjust based on your logo size */
+}
+
+.nav-list {
+  /* display: flex;
+  list-style-type: none;
+  padding: 0;
+  margin: 0; */
+  display: none; 
+  flex-direction: column;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  width: 200px;
+  
+}
+
+.nav-list.open {
+  display: flex;
+  margin-right: 19px;
+}
+
+.nav-button {
+  /* font-size: 1rem;
+  color: #0044cc; 
+  background-color: white;
+  border: 2px solid #0044cc;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s ease-in-out;
+  margin: 0 0.5rem; */
+  margin: 10px;
+  text-align: left;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: none;
+}
+
+.nav-button:hover {
+   background-color: #0044cc;
+  color: white;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, .015), 0 4px 6px rgba(0, 0, 0, 0.1); 
+  
+  width: 180px;
+}
+
+.update-plate {
+  padding: 2rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 2rem;
+}
+
+
+/* create warehouse css */
+.popup-text{
+  color: black;
+}
+
+.warning-text {
+  color: red;
+}
+
+.warehouse-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding-right: 10px;
+  margin-top: 5%;
+}
+
+
+
+.section {
+  margin-left: 0%; 
+  
+}
+
+.sub-section {
+  margin-left: 30%; 
+  width: 100%;
+}
+
+.sub-sub-section {
+  margin-left: 60%;
+  width: 40%;
+}
+
+h2 {
+  margin: 0;
+  padding: 5px;
+  justify-content: left;
+  text-align: left;
+  text-decoration: underline;
+}
+
+h3, h4 {
+  margin: 0;
+  padding: 5px;
+  justify-content: left;
+  text-align: left; 
+}
+
+.create-warehouse-button {
+  flex: 1;
+  text-align: center;
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #0044cc; /* Blue text */
+  background-color: white;
+  border: 2px solid #0044cc;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  margin: 0 0.5rem;
+  cursor: pointer;
+  transition: background-color 6.3s, color 0.5s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.create-warehouse-button:hover {
+  background-color: #0044cc;
+  color: white;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, .015), 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center align the rows horizontally */
+  gap: 10px; /* Space between rows */
+}
+
+.button-row {
+  display: flex;
+  justify-content: space-between; /* Distribute buttons evenly */
+  width: 100%; /* Ensure the row takes the full width */
+  max-width: 600px; /* Optional: Limit the width of the rows */
+  gap: 10px; /* Space between buttons */
+}
+
+
+/* Media Queries for Responsiveness */
+@media (max-width: 600px) {
+.hamburger-menu {
+  display: block;
+}
+
+  .form-container {
+    padding: 1rem;
+  }
+
+  .form-title {
+    font-size: 1.2rem;
+  }
+
+  .form-subtitle {
+    font-size: 0.8rem;
+  }
+
+  .form-input {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+  }
+
+  .form-button {
+    padding: 0.6rem;
+    font-size: 0.9rem;
+  }
+
+  .spa-header {
+    /* flex-direction: row;
+    align-items: flex-start;
+    padding-bottom: 0%;
+    padding-top: 0%; */
+    display: flex;
+    align-items: center;
+    justify-content: block;
+  }
+
+  .nav-list {
+    /* flex-direction: row;
+    align-items: flex-start; */
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    width: 200px;
+  }
+
+  .nav-list.open {
+    display: flex;
+  }
+
+  .nav-button {
+    /* font-size: 0.8rem; 
+    color: #0044cc; 
+    background-color: white;
+    border: 2px solid #0044cc;
+    border-radius: 4px;
+    padding: 0.4rem 0.8rem; 
+    margin: 0 0.3rem; 
+    width: auto; 
+    height: 37.5px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s; */
+    margin: 10px;
+  }
+
+  .update-plate {
+    margin: 1rem;
+    padding: 1rem;
+  }
 }

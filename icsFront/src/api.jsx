@@ -1,9 +1,9 @@
 import axios from "axios";
 
 // localhost url
-// const baseUrl = "http://127.0.0.1:8000";
+const baseUrl = "http://127.0.0.1:8000";
 // fly url
-const baseUrl = "https://ics-back.fly.dev";
+// const baseUrl = "https://ics-back.fly.dev";
 
 // url switcher
 // const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -57,7 +57,7 @@ export const registerUser = ({
       return response;
     })
     .catch((error) => {
-      if (error.response) {
+      if (error.response === 500) {
         // Request was made and server responded with a status code that falls out of 2xx range
         console.log("ERROR DATA: ", error.response.data); // Logging error data
         console.log("ERROR STATUS: ", error.response.status); // Logging error status
@@ -71,6 +71,7 @@ export const registerUser = ({
         console.log("ERROR MESSAGE: ", error.message); // Logging error message
       }
       console.log("ERROR CONFIG: ", error.config); // Logging error config
+      throw error;
     });
 };
 // ===================================================================================

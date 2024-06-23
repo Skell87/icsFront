@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { AuthContext } from "./Context";
 import { getToken } from "./api";
 import { useNavigate, Link } from "react-router-dom";
+// import logo from "./logo.png";
 
 function Login() {
   const { auth } = useContext(AuthContext);
@@ -26,7 +27,14 @@ function Login() {
 
   return (
     <div id="loginPage">
-      <h1>Login</h1>
+      <img
+        className="logo"
+        src="/src/assets/logo.png"
+        alt="a logo of a mule with a box"
+      ></img>
+      <h1 id="loginTitle">Pack Mule</h1>
+      <p id="loginDesc">We'll hold that for you...</p>
+      <h2 id="loginText">Login.</h2>
       <div>
         <div>Username:</div>
         <input onChange={(e) => setUserName(e.target.value)} value={username} />
@@ -40,7 +48,7 @@ function Login() {
         />
       </div>
       <div>
-        <button className="button" onClick={() => submit()}>
+        <button className="login-button" onClick={() => submit()}>
           Log in.
         </button>
         <div>

@@ -11,9 +11,11 @@ import {
   deleteSubSubSection,
   getSubSubSections,
 } from "./api";
+import WarehouseDisplay from "./WarehouseDisplay";
 
 const CreateWarehouse = () => {
   const { auth } = useContext(AuthContext);
+  const [refresh, setRefresh] = useState(false);
 
   // create form state:
   // section state
@@ -98,24 +100,6 @@ const CreateWarehouse = () => {
     }
   }, [auth, selectedSubSection]);
 
-  // const handleOpenSectionPopup = () => {
-  //   setShowSectionPopup(true);
-  //   setSectionName("");
-  // };
-
-  // const handleOpenSubSectionPopup = () => {
-  //   setShowSubSectionPopup(true);
-  //   setSubSectionName("");
-  //   setSelectedSection("");
-  // };
-
-  // const handleOpenSubSubSectionPopup = () => {
-  //   setShowSubSubSectionPopup(true);
-  //   setSubSubSectionName("");
-  //   setSelectedSubSection("");
-  //   setSelectedSection("");
-  // };
-
   const handleClosePopup = () => {
     console.log("close pop");
     setShowSectionPopup(false);
@@ -148,21 +132,6 @@ const CreateWarehouse = () => {
     }
   };
 
-  // const handleCloseDeletePopup = () => {
-  //   setShowDeleteSectionPopup(false);
-  //   setshowDeleteSubSectionPopup(false);
-  //   setshowDeleteSubSubSectionPopup(false);
-  //   setSectionName("");
-  //   setSubSectionName("");
-  //   setSubSubSectionName("");
-  //   setSections([]);
-  //   setSubSections([]);
-  //   setSubSubSections([]);
-  //   setSelectedSection("");
-  //   setSelectedSubSection("");
-  //   setSelectedSubSubSection("");
-  // };
-
   // section creation api calls
   const handleCreateSection = async () => {
     if (sectionName.trim()) {
@@ -179,6 +148,7 @@ const CreateWarehouse = () => {
       alert("Section name cannot be empty.");
     }
     handleClosePopup();
+    setRefresh(!refresh);
   };
 
   const handleCreateSubSection = async () => {
@@ -198,6 +168,7 @@ const CreateWarehouse = () => {
       alert("Both section and subsection names are required.");
     }
     handleClosePopup();
+    setRefresh(!refresh);
   };
 
   const handleCreateSubSubSection = async () => {
@@ -216,6 +187,7 @@ const CreateWarehouse = () => {
       alert("Both subsection and subsubsection names are required.");
     }
     handleClosePopup();
+    setRefresh(!refresh);
   };
 
   // section delete api calls
@@ -239,6 +211,7 @@ const CreateWarehouse = () => {
       alert("Please select a section to delete.");
     }
     handleClosePopup();
+    setRefresh(!refresh);
   };
 
   const handleDeleteSubSection = async () => {
@@ -265,6 +238,7 @@ const CreateWarehouse = () => {
       alert("Please select a sub section to delete");
       console.log("DELETESUBID:", selectedSubSection);
     }
+    setRefresh(!refresh);
   };
 
   const handleDeleteSubSubSection = async () => {
@@ -290,40 +264,68 @@ const CreateWarehouse = () => {
     } else {
       alert("Please select a sub sub section to delete.");
     }
+    setRefresh(!refresh);
   };
 
   return (
     <div>
-      <button onClick={() => setShowSectionPopup(true)}>Add Section</button>
-      <button onClick={() => handleOpenDeletePopup("section")}>
-        Delete Section
-      </button>
-      <button onClick={() => setShowSubSectionPopup(true)}>
-        Add SubSection
-      </button>
-      <button onClick={() => handleOpenDeletePopup("subsection")}>
-        Delete SubSection
-      </button>
-      <button onClick={() => setShowSubSubSectionPopup(true)}>
-        Add SubSubSection
-      </button>
-      <button onClick={() => handleOpenDeletePopup("subsubsection")}>
-        Delete SubSubSection
-      </button>
-
+      <div className="button-container">
+        <div className="button-row">
+          <button
+            onClick={() => setShowSectionPopup(true)}
+            className="create-warehouse-button"
+          >
+            Add Area
+          </button>
+          <button
+            onClick={() => setShowSubSectionPopup(true)}
+            className="create-warehouse-button"
+          >
+            Add Division
+          </button>
+          <button
+            onClick={() => setShowSubSubSectionPopup(true)}
+            className="create-warehouse-button"
+          >
+            Add Sub-Division
+          </button>
+        </div>
+        <div className="button-row">
+          <button
+            onClick={() => handleOpenDeletePopup("section")}
+            className="create-warehouse-button"
+          >
+            Delete Area
+          </button>
+          <button
+            onClick={() => handleOpenDeletePopup("subsection")}
+            className="create-warehouse-button"
+          >
+            Delete Division
+          </button>
+          <button
+            onClick={() => handleOpenDeletePopup("subsubsection")}
+            className="create-warehouse-button"
+          >
+            Delete Sub-Division
+          </button>
+        </div>
+      </div>
       {showSectionPopup && (
         <div className="popup">
           <div className="popup-inner">
-            <h2>Add New Section</h2>
+            <h2 className="popup-text">Add New Area.</h2>
             <input
               type="text"
               value={sectionName}
+              placeholder="Area Name."
               onChange={(e) => setSectionName(e.target.value)}
               style={{
                 display: "block",
-                width: "100%",
+                width: "88%",
                 padding: "8px",
                 marginBottom: "10px",
+                marginRight: "10px",
               }}
             />
             <button onClick={handleCreateSection}>Create</button>
@@ -335,8 +337,8 @@ const CreateWarehouse = () => {
       {showSubSectionPopup && (
         <div className="popup">
           <div className="popup-inner">
-            <h2>Add New SubSection</h2>
-            <label>Section:</label>
+            <h2 className="popup-text">Add New Division.</h2>
+            <label className="popup-text">Area:</label>
             <select
               value={selectedSection}
               style={{
@@ -360,10 +362,10 @@ const CreateWarehouse = () => {
                   type="text"
                   value={subSectionName}
                   onChange={(e) => setSubSectionName(e.target.value)}
-                  placeholder="SubSection Name"
+                  placeholder="Sub-Division Name."
                   style={{
                     display: "block",
-                    width: "100%",
+                    width: "88%",
                     padding: "8px",
                     marginBottom: "10px",
                   }}
@@ -379,8 +381,8 @@ const CreateWarehouse = () => {
       {showSubSubSectionPopup && (
         <div className="popup">
           <div className="popup-inner">
-            <h2>Add New SubSubSection</h2>
-            <label>Section:</label>
+            <h2 className="popup-text">Add New Sub-Division.</h2>
+            <label className="popup-text">Area:</label>
             <select
               value={selectedSection}
               style={{
@@ -404,7 +406,7 @@ const CreateWarehouse = () => {
             </select>
             {selectedSection && (
               <div>
-                <label>SubSection:</label>
+                <label className="popup-text">Division:</label>
                 <select
                   value={selectedSubSection}
                   onChange={(e) => setSelectedSubSection(e.target.value)}
@@ -430,10 +432,10 @@ const CreateWarehouse = () => {
                   type="text"
                   value={subSubSectionName}
                   onChange={(e) => setSubSubSectionName(e.target.value)}
-                  placeholder="SubSubSection Name"
+                  placeholder="Sub-Division Name."
                   style={{
                     display: "block",
-                    width: "100%",
+                    width: "88%",
                     padding: "8px",
                     marginBottom: "10px",
                   }}
@@ -449,8 +451,8 @@ const CreateWarehouse = () => {
       {showDeleteSectionPopup && (
         <div className="popup">
           <div className="popup-inner">
-            <h2>Delete Section</h2>
-            <h6>
+            <h2 className="popup-text">Delete Area.</h2>
+            <h6 className="warning-text">
               WARNING! Will delete all related sections and items below this
               heirarchy!
             </h6>
@@ -480,12 +482,12 @@ const CreateWarehouse = () => {
       {showDeleteSubSectionPopup && (
         <div className="popup">
           <div className="popup-inner">
-            <h2>Delete SubSection</h2>
-            <h6>
+            <h2 className="popup-text">Delete Division.</h2>
+            <h6 className="warning-text">
               WARNING! Will delete all related sections and items below this
               heirarchy!
             </h6>
-            <label> Section:</label>
+            <label className="popup-text">Area:</label>
             <select
               value={selectedSection}
               onChange={(e) => setSelectedSection(e.target.value)}
@@ -505,7 +507,7 @@ const CreateWarehouse = () => {
             </select>
             {selectedSection && (
               <div>
-                <label>SubSection:</label>
+                <label className="popup-text">Division:</label>
                 <select
                   value={selectedSubSection}
                   onChange={(e) => setSelectedSubSection(e.target.value)}
@@ -534,8 +536,8 @@ const CreateWarehouse = () => {
       {showDeleteSubSubSectionPopup && (
         <div className="popup">
           <div className="popup-inner">
-            <h2>Delete SubSubSection</h2>
-            <h6>
+            <h2 className="popup-text">Delete Sub-Division.</h2>
+            <h6 className="warning-text">
               WARNING! Will delete all related sections and items below this
               heirarchy!
             </h6>
@@ -558,7 +560,7 @@ const CreateWarehouse = () => {
             </select>
             {selectedSection && (
               <div>
-                <label>SubSection:</label>
+                <label className="popup-text">Division:</label>
                 <select
                   value={selectedSubSection}
                   onChange={(e) => setSelectedSubSection(e.target.value)}
@@ -580,7 +582,7 @@ const CreateWarehouse = () => {
             )}
             {selectedSubSection && (
               <div>
-                <label>SubSubSection:</label>
+                <label className="popup-text">Sub-Division:</label>
                 <select
                   value={selectedSubSubSection}
                   onChange={(e) => setSelectedSubSubSection(e.target.value)}
@@ -605,6 +607,9 @@ const CreateWarehouse = () => {
           </div>
         </div>
       )}
+      <div className="popup-text">
+        <WarehouseDisplay refresh={refresh} />
+      </div>
     </div>
   );
 };
