@@ -34,7 +34,7 @@
   width: 200px;
   height: 100px;
   background-color: rgb(253, 253, 253);
- 
+  border-radius: 10px;
 }
 
 .popup-inner {
@@ -44,6 +44,18 @@
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
   width: auto;
   max-width: 300px;
+}
+
+.inv-button-div {
+  display: flex;
+  flex-direction: row;
+  margin: 5px;
+  
+}
+
+.update-inv-button-div {
+  margin: 5px;
+
 }
 
 #loginTitle {
@@ -172,9 +184,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* padding: 1rem;
-  margin-top: 0%;
-  margin-bottom: 0%; */
+  
 }
 
 .hamburger-menu {
@@ -193,14 +203,11 @@
 }
 
 .header-logo {
-  height: 60px; /* Adjust based on your logo size */
+  height: 60px; 
 }
 
 .nav-list {
-  /* display: flex;
-  list-style-type: none;
-  padding: 0;
-  margin: 0; */
+  
   display: none; 
   flex-direction: column;
   list-style: none;
@@ -212,7 +219,8 @@
   background: white;
   border: 1px solid #ccc;
   width: 200px;
-  
+  color: #0044cc;
+  z-index: 1000;
 }
 
 .nav-list.open {
@@ -221,46 +229,46 @@
 }
 
 .nav-button {
-  /* font-size: 1rem;
-  color: #0044cc; 
-  background-color: white;
-  border: 2px solid #0044cc;
-  border-radius: 4px;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
-  transition: box-shadow 0.3s ease-in-out;
-  margin: 0 0.5rem; */
+  
   margin: 10px;
   text-align: left;
-  width: 100%;
+  width: auto;
   padding: 10px;
   border: none;
   background: none;
+  box-sizing: border-box;
+  color: #0044cc;
+  transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
 }
 
 .nav-button:hover {
-   background-color: #0044cc;
+  background-color: #0044cc;
   color: white;
-  box-shadow: 0 8px 12px rgba(0, 0, 0, .015), 0 4px 6px rgba(0, 0, 0, 0.1); 
+ 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
   
-  width: 180px;
+  width: auto;
 }
 
 .update-plate {
+  width: 100%;
   padding: 2rem;
   background-color: white;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin: 2rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 
-/* create warehouse css */
+
 .popup-text{
   color: black;
 }
+
+
 
 .warning-text {
   color: red;
@@ -313,7 +321,7 @@ h3, h4 {
   text-align: center;
   padding: 10px 20px;
   font-size: 1rem;
-  color: #0044cc; /* Blue text */
+  color: #0044cc; 
   background-color: white;
   border: 2px solid #0044cc;
   border-radius: 4px;
@@ -334,21 +342,174 @@ h3, h4 {
 .button-container {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center align the rows horizontally */
-  gap: 10px; /* Space between rows */
+  align-items: center; 
+  gap: 10px;
 }
 
 .button-row {
   display: flex;
-  justify-content: space-between; /* Distribute buttons evenly */
-  width: 100%; /* Ensure the row takes the full width */
-  max-width: 600px; /* Optional: Limit the width of the rows */
-  gap: 10px; /* Space between buttons */
+  justify-content: space-between; 
+  width: 100%; 
+  max-width: 600px; 
+  gap: 10px; 
 }
 
 
+.MI-text {
+  display: flex;
+  color: #333;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+/* ====================    this is for the desktop table in manage inv  =========== */
+
+
+.desktop-view {
+  width: 100%;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  table-layout: fixed;
+}
+
+thead {
+  background-color: #007bff;
+  color: #fff;
+
+  top: 0;
+ 
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  
+}
+
+th {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.active-sort {
+  background-color: #061c96;
+  color: #ffffff;
+}
+
+tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+/* this guy makes the stripey effect on the table */
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Button styles */
+button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 5px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.help {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.help h1 {
+  color: #0056b3;
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.help h2 {
+  color: #0056b3;
+  font-size: 1.5em;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.help h3 {
+  color: #0056b3;
+  font-size: 1.5em;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.help p {
+  margin-bottom: 20px;
+}
+
+.help strong {
+  color: #000;
+}
+
+
+.manage-inventory-add-button {
+  font-size: 0.8rem; 
+  color: #0044cc; 
+  background-color: white;
+  border: 2px solid #0044cc;
+  border-radius: 4px;
+  padding: 0.4rem 0.8rem; 
+  margin-bottom: 2%;
+  width: 20%; 
+  height: 37.5px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  
+}
+
+.responsive-text {
+  font-size: 0.8rem;
+}
+
+.popup-label {
+  display: block;
+  text-align: left; 
+  font-size: 0.8rem; 
+  margin-bottom: 5px; 
+}
+
+.popup-input {
+  width: 100%; 
+  padding: 8px; 
+  margin-bottom: 10px; 
+  box-sizing: border-box; 
+  font-size: 0.9rem; 
+}
+
+/* ===================================    mobile below              ================================ */
 /* Media Queries for Responsiveness */
-@media (max-width: 600px) {
+@media (max-width: 769px) {
 .hamburger-menu {
   display: block;
 }
@@ -373,21 +534,36 @@ h3, h4 {
   .form-button {
     padding: 0.6rem;
     font-size: 0.9rem;
+    color: #0044cc; 
+    background-color: white;
+    border: 2px solid #0044cc;
+    border-radius: 4px;
+    
+    margin-bottom: 2%;
+    
+    height: 37.5px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .form-button:hover {
+    background-color: #0044cc;
+    color: white;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, .015), 0 4px 6px rgba(0, 0, 0, 0.1);
   }
 
   .spa-header {
-    /* flex-direction: row;
-    align-items: flex-start;
-    padding-bottom: 0%;
-    padding-top: 0%; */
+    
     display: flex;
     align-items: center;
     justify-content: block;
   }
 
   .nav-list {
-    /* flex-direction: row;
-    align-items: flex-start; */
+    
     display: none;
     flex-direction: column;
     position: absolute;
@@ -396,6 +572,8 @@ h3, h4 {
     background: white;
     border: 1px solid #ccc;
     width: 200px;
+    color: #0044cc;
+    z-index: 1000;
   }
 
   .nav-list.open {
@@ -403,25 +581,110 @@ h3, h4 {
   }
 
   .nav-button {
-    /* font-size: 0.8rem; 
+    font-size: 0.8rem; 
     color: #0044cc; 
     background-color: white;
     border: 2px solid #0044cc;
     border-radius: 4px;
     padding: 0.4rem 0.8rem; 
-    margin: 0 0.3rem; 
+    
     width: auto; 
     height: 37.5px; 
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: background-color 0.3s, color 0.3s; */
+    transition: background-color 0.3s, color 0.3s;
     margin: 10px;
   }
 
   .update-plate {
-    margin: 1rem;
+    
     padding: 1rem;
+    margin: 0 auto;
   }
+
+  .manage-inventory-add-button {
+    font-size: 0.8rem; 
+    color: #0044cc; 
+    background-color: white;
+    border: 2px solid #0044cc;
+    border-radius: 4px;
+    padding: 0.4rem 0.8rem; 
+    
+    width: auto; 
+    height: 37.5px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+/* ==================               this is for the tiles                        ===================== */
+.mobile-view {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  
+  align-items: center;
+  width: 100%;
+}
+
+.mobile-tile {
+  padding: 10px;
+  background-color: #dddbdb;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  max-width: 600px;
+}
+
+.tile-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.tile-body {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.more-info-button {
+  align-self: flex-end;
+}
+
+.search-box {
+  margin: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+
+}
+
+/* ======================== super small mobile width  =================== */
+
+@media (max-width: 392px) {
+  .button-container {
+    flex-direction: column;
+  }
+
+  .button-row {
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .create-warehouse-button {
+    flex: 1;
+    margin: 5px;
+  }
+
+  
 }

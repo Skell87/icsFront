@@ -1,14 +1,3 @@
-/*
-I need to make an axios post to add users.
-user information includes..
-  username
-  password
-  first_name
-  last_name
-  email
-  is_staff (boolean)
-*/
-
 import React, { useState, useContext } from "react";
 import { registerUser } from "./api";
 import axios from "axios";

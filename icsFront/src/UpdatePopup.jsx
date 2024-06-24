@@ -1,15 +1,24 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
+  deleteInventoryItem,
   getSection,
   getSubSections,
   getSubSubSections,
   updateInventoryItem,
 } from "./api";
 import { AuthContext } from "./Context";
+import DeletePopup from "./DeletePopup";
 
-const UpdatePopup = ({ item, onClose, onConfirmUpdate }) => {
+const UpdatePopup = ({
+  item,
+  onClose,
+  onConfirmUpdate,
+  fetchInventoryItems,
+}) => {
   console.log("recieved item for update", item);
   const { auth } = useContext(AuthContext);
+  const [currentItem, setCurrentItem] = useState(null);
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
 
   const [updatedItem, setUpdatedItem] = useState({
     inventory_item: {
@@ -127,41 +136,72 @@ const UpdatePopup = ({ item, onClose, onConfirmUpdate }) => {
     }
   }, [auth, selectedSubSection]);
 
+  const handleDeleteClick = (item) => {
+    setCurrentItem(item);
+    setShowDeletePopup(true);
+  };
+
+  const handleDelete = () => {
+    const quantityToDelete = currentItem.quantity;
+    deleteInventoryItem({ auth, itemId: currentItem.id, quantityToDelete })
+      .then(() => {
+        setShowDeletePopup(false);
+        onClose();
+        fetchInventoryItems();
+      })
+      .catch((error) => {
+        console.error(" THAT ITEM IS STILL ALIVE!!!", error);
+      });
+  };
+
   return (
     <div className="popup">
       <div className="popup-inner">
         <h2>Update Item</h2>
+        <label className="popup-label">Name:</label>
         <input
+          className="popup-input"
           type="text"
           name="name"
           value={updatedItem.inventory_item.name}
           onChange={handleChange}
         />
+        <label className="popup-label">Make:</label>
         <input
+          className="popup-input"
           type="text"
           name="make"
           value={updatedItem.inventory_item.make}
           onChange={handleChange}
         />
+
+        <label className="popup-label">Model:</label>
         <input
+          className="popup-input"
           type="text"
           name="model"
           value={updatedItem.inventory_item.model}
           onChange={handleChange}
         />
+        <label className="popup-label">Color:</label>
         <input
+          className="popup-input"
           type="text"
           name="color"
           value={updatedItem.inventory_item.color}
           onChange={handleChange}
         />
+        <label className="popup-label">Notes:</label>
         <input
+          className="popup-input"
           type="text"
           name="notes"
           value={updatedItem.inventory_item.notes}
           onChange={handleChange}
         />
+        <label className="popup-label">Quantity:</label>
         <input
+          className="popup-input"
           type="number"
           value={updatedItem.quantity}
           onChange={handleQuantityChange}
@@ -209,11 +249,28 @@ const UpdatePopup = ({ item, onClose, onConfirmUpdate }) => {
             </select>
           </div>
         )}
-        <div>
-          <button onClick={handleSubmit}>Update</button>
-          <button onClick={onClose}>Cancel</button>
+        <div className="update-inv-button-div">
+          <button className="update-inv-button-div" onClick={handleSubmit}>
+            Update
+          </button>
+          <button className="update-inv-button-div" onClick={onClose}>
+            Cancel
+          </button>
+          <button
+            className="update-inv-button-div"
+            onClick={() => handleDeleteClick(item)}
+          >
+            Delete
+          </button>
         </div>
       </div>
+      {showDeletePopup && (
+        <DeletePopup
+          item={currentItem}
+          onClose={() => setShowDeletePopup(false)}
+          onDelete={handleDelete}
+        />
+      )}
     </div>
   );
 };

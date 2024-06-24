@@ -3,15 +3,13 @@ import AddUser from "./AddUser";
 import CreateWarehouse from "./CreateWarehouse";
 import LandingPage from "./LandingPage";
 import ManageInventory from "./ManageInventory";
-import Metrics from "./Metrics";
-import PickLists from "./PickLists";
-import UserProfiles from "./UserProfiles";
-import { useContext, useState } from "react";
+
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "./Context";
 
 function HomePage() {
-  const [view, setView] = useState("HomePage");
+  const [view, setView] = useState("ManageInventory");
   const { auth } = useContext(AuthContext);
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -29,6 +27,22 @@ function HomePage() {
     setView(view);
     setIsMenuOpen(false);
   };
+
+  useEffect(() => {
+    const navList = document.querySelector(".nav-list");
+    const handleMouseLeave = () => {
+      setIsMenuOpen(false);
+    };
+    if (navList) {
+      navList.addEventListener("mouseleave", handleMouseLeave);
+    }
+
+    return () => {
+      if (navList) {
+        navList.removeEventListener("mouseleave", handleMouseLeave);
+      }
+    };
+  }, []);
 
   function displaySelector() {
     switch (view) {
@@ -66,21 +80,21 @@ function HomePage() {
         <ul className={`nav-list ${isMenuOpen ? "open" : ""}`}>
           <button
             className="nav-button"
-            onClick={() => handleMenuItemClick("LandingPage")}
+            onClick={() => handleMenuItemClick("ManageInventory")}
           >
-            Home
+            Manage Inventory
           </button>
           <button
             className="nav-button"
             onClick={() => handleMenuItemClick("CreateWarehouse")}
           >
-            Manage Warehouse
+            Manage Storage
           </button>
           <button
             className="nav-button"
-            onClick={() => handleMenuItemClick("ManageInventory")}
+            onClick={() => handleMenuItemClick("LandingPage")}
           >
-            Manage Inventory
+            Help
           </button>
           <button className="nav-button" onClick={() => handleLogout()}>
             Logout

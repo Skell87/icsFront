@@ -141,13 +141,14 @@ const CreateWarehouse = () => {
       });
       if (response.status === 201) {
         console.log("Section created successfully", response.data);
+        handleClosePopup();
       } else {
-        alert("Failed to create a new section.");
+        alert("Failed to create a new Area.");
       }
     } else {
-      alert("Section name cannot be empty.");
+      alert("Area name cannot be empty.");
     }
-    handleClosePopup();
+
     setRefresh(!refresh);
   };
 
@@ -161,13 +162,14 @@ const CreateWarehouse = () => {
       });
       if (response.status === 201) {
         console.log("SubSection created successfully", response.data);
+        handleClosePopup();
       } else {
-        alert("Failed to create a new subsection.");
+        alert("Failed to create a new Division.");
       }
     } else {
-      alert("Both section and subsection names are required.");
+      alert("Both Area and Division names are required.");
     }
-    handleClosePopup();
+
     setRefresh(!refresh);
   };
 
@@ -180,13 +182,14 @@ const CreateWarehouse = () => {
       });
       if (response.status === 201) {
         console.log("SubSubSection created successfully", response.data);
+        handleClosePopup();
       } else {
-        alert("Failed to create a new subsubsection.");
+        alert("Failed to create a new Sub-Division.");
       }
     } else {
-      alert("Both subsection and subsubsection names are required.");
+      alert("Both Division and Sub-Division names are required.");
     }
-    handleClosePopup();
+
     setRefresh(!refresh);
   };
 
@@ -198,19 +201,19 @@ const CreateWarehouse = () => {
         sectionId: deleteSectionId,
       });
       if (response.status === 200) {
-        alert("Section deleted successfully");
+        alert("Area deleted successfully.");
         setSections(
           sections.filter((section) => section.id !== deleteSectionId)
         ); // Update the sections list locally
       } else {
-        alert("Failed to delete the section.");
+        alert("Failed to delete the Area.");
       }
       setDeleteSectionId(""); // Reset the selected section ID
       handleClosePopup(); // Close the popup
     } else {
-      alert("Please select a section to delete.");
+      alert("Please select an Area to delete.");
     }
-    handleClosePopup();
+
     setRefresh(!refresh);
   };
 
@@ -223,19 +226,19 @@ const CreateWarehouse = () => {
         subSectionId: selectedSubSection,
       });
       if (response.status === 200) {
-        alert("Sub section deleted successfully");
+        alert("Division deleted successfully.");
         setSubSections(
           subSections.filter(
             (subSection) => subSection.id !== selectedSubSection
           )
         );
       } else {
-        alert("Failed to delete the SubSection.");
+        alert("Failed to delete the Division.");
       }
       setDeleteSubSectionId("");
       handleClosePopup();
     } else {
-      alert("Please select a sub section to delete");
+      alert("Please select a Division to delete.");
       console.log("DELETESUBID:", selectedSubSection);
     }
     setRefresh(!refresh);
@@ -250,19 +253,19 @@ const CreateWarehouse = () => {
         subSubSectionId: selectedSubSubSection,
       });
       if (response.status === 200) {
-        alert("Sub Sub Section deleted successfully");
+        alert("Sub-Division deleted successfully.");
         setSubSubSections(
           subSubSections.filter(
             (subSubSection) => subSubSection.id !== selectedSubSubSection
           )
         ); // Update the sections list locally
       } else {
-        alert("Failed to delete the sub sub section.");
+        alert("Failed to delete the Sub-Division.");
       }
       setDeleteSubSubSectionId(""); // Reset the selected section ID
       handleClosePopup(); // Close the popup
     } else {
-      alert("Please select a sub sub section to delete.");
+      alert("Please select a Sub-Division to delete.");
     }
     setRefresh(!refresh);
   };
@@ -328,8 +331,10 @@ const CreateWarehouse = () => {
                 marginRight: "10px",
               }}
             />
-            <button onClick={handleCreateSection}>Create</button>
-            <button onClick={handleClosePopup}>Close</button>
+            <div>
+              <button onClick={handleCreateSection}>Create</button>
+              <button onClick={handleClosePopup}>Close</button>
+            </div>
           </div>
         </div>
       )}
@@ -370,9 +375,9 @@ const CreateWarehouse = () => {
                     marginBottom: "10px",
                   }}
                 />
-                <button onClick={handleCreateSubSection}>Create</button>
               </div>
             )}
+            <button onClick={handleCreateSubSection}>Create</button>
             <button onClick={handleClosePopup}>Close</button>
           </div>
         </div>
@@ -440,9 +445,9 @@ const CreateWarehouse = () => {
                     marginBottom: "10px",
                   }}
                 />
-                <button onClick={handleCreateSubSubSection}>Create</button>
               </div>
             )}
+            <button onClick={handleCreateSubSubSection}>Create</button>
             <button onClick={handleClosePopup}>Close</button>
           </div>
         </div>
