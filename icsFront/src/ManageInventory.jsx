@@ -471,12 +471,12 @@ const ManageInventory = () => {
               />
             </div>
             <div>
-              <label>section</label>
+              <label>Area:</label>
               <select
                 value={selectedSection}
                 onChange={(e) => setSelectedSection(e.target.value)}
               >
-                <option value="">Select a warehouse</option>
+                <option value="">Select an Area</option>
                 {sections.map((section) => (
                   <option key={section.id} value={section.id}>
                     {section.name}
@@ -486,12 +486,12 @@ const ManageInventory = () => {
             </div>
             {selectedSection && (
               <div>
-                <label>Subsection:</label>
+                <label>Division:</label>
                 <select
                   value={selectedSubSection}
                   onChange={(e) => setSelectedSubSection(e.target.value)}
                 >
-                  <option value="">Select a subsection</option>
+                  <option value="">Select a Division</option>
                   {subSections.map((subSection) => (
                     <option key={subSection.id} value={subSection.id}>
                       {subSection.name}
@@ -502,12 +502,12 @@ const ManageInventory = () => {
             )}
             {selectedSubSection && (
               <div>
-                <label>SubSubSection:</label>
+                <label>Sub-Division:</label>
                 <select
                   value={selectedSubSubSection}
                   onChange={(e) => setSelectedSubSubSection(e.target.value)}
                 >
-                  <option value="">Select a Sub Sub Section</option>
+                  <option value="">Select a Sub-Division</option>
                   {subSubSections.map((subSubSection) => (
                     <option key={subSubSection.id} value={subSubSection.id}>
                       {subSubSection.name}
