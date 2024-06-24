@@ -28,7 +28,7 @@ function Login() {
     <div id="loginPage">
       <img
         className="logo"
-        src=".\public\logo.png"
+        src="./logo.png"
         alt="a logo of a mule with a box"
       ></img>
       <h1 id="loginTitle">Pack Mule</h1>
