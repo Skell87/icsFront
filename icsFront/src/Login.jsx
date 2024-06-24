@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { AuthContext } from "./Context";
 import { getToken } from "./api";
 import { useNavigate, Link } from "react-router-dom";
-// import logo from "./logo.png";
 
 function Login() {
   const { auth } = useContext(AuthContext);
@@ -29,7 +28,7 @@ function Login() {
     <div id="loginPage">
       <img
         className="logo"
-        src="/src/assets/logo.png"
+        src=".\public\logo.png"
         alt="a logo of a mule with a box"
       ></img>
       <h1 id="loginTitle">Pack Mule</h1>

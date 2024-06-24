@@ -155,10 +155,9 @@ const CreateWarehouse = () => {
   const handleCreateSubSection = async () => {
     if (selectedSection && subSectionName.trim()) {
       const response = await registerSubWarehouse({
-        // Use an API call for subsection creation
         auth,
         name: subSectionName,
-        sectionId: selectedSection, // Assuming API accepts a sectionId for subsection creation
+        sectionId: selectedSection,
       });
       if (response.status === 201) {
         console.log("SubSection created successfully", response.data);
@@ -208,8 +207,8 @@ const CreateWarehouse = () => {
       } else {
         alert("Failed to delete the Area.");
       }
-      setDeleteSectionId(""); // Reset the selected section ID
-      handleClosePopup(); // Close the popup
+      setDeleteSectionId("");
+      handleClosePopup();
     } else {
       alert("Please select an Area to delete.");
     }
@@ -258,12 +257,12 @@ const CreateWarehouse = () => {
           subSubSections.filter(
             (subSubSection) => subSubSection.id !== selectedSubSubSection
           )
-        ); // Update the sections list locally
+        );
       } else {
         alert("Failed to delete the Sub-Division.");
       }
-      setDeleteSubSubSectionId(""); // Reset the selected section ID
-      handleClosePopup(); // Close the popup
+      setDeleteSubSubSectionId("");
+      handleClosePopup();
     } else {
       alert("Please select a Sub-Division to delete.");
     }
@@ -399,7 +398,7 @@ const CreateWarehouse = () => {
               onChange={(e) => {
                 setSelectedSection(e.target.value);
 
-                setSelectedSubSection(""); // Reset selected subsection when section changes
+                setSelectedSubSection("");
               }}
             >
               <option value="">Select a section</option>
