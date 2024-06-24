@@ -207,9 +207,9 @@ const UpdatePopup = ({
           onChange={handleQuantityChange}
         />
         <div>
-          <label>Section:</label>
+          <label>Area:</label>
           <select value={selectedSection} onChange={handleSectionChange}>
-            <option value="">Select a section</option>
+            <option value="">Select an Area</option>
             {sections.map((section) => (
               <option key={section.id} value={section.id}>
                 {section.name}
@@ -219,12 +219,12 @@ const UpdatePopup = ({
         </div>
         {selectedSection && (
           <div>
-            <label>Subsection:</label>
+            <label>Division:</label>
             <select
               value={selectedSubSection}
               onChange={handleSubSectionChange}
             >
-              <option value="">Select a subsection</option>
+              <option value="">Select a Division</option>
               {subSections.map((subSection) => (
                 <option key={subSection.id} value={subSection.id}>
                   {subSection.name}
@@ -235,12 +235,12 @@ const UpdatePopup = ({
         )}
         {selectedSubSection && (
           <div>
-            <label>Subsubsection:</label>
+            <label>Sub-Division:</label>
             <select
               value={selectedSubSubSection}
               onChange={handleSubSubSectionChange}
             >
-              <option value="">Select a subsubsection</option>
+              <option value="">Select a Sub-Division</option>
               {subSubSections.map((subSubSection) => (
                 <option key={subSubSection.id} value={subSubSection.id}>
                   {subSubSection.name}
