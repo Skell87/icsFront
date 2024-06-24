@@ -59,7 +59,7 @@ const AddUser = () => {
     <div id="createUserMain">
       <img
         className="logo"
-        src="/src/assets/logo.png"
+        src=".\public\logo.png"
         alt="a logo of a mule with a box"
       ></img>
       <h1 id="loginTitle">Pack Mule</h1>

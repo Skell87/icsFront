@@ -69,7 +69,7 @@ function HomePage() {
         <div className="spa-header">
           <img
             className="header-logo"
-            src="/src/assets/logo.png"
+            src=".\public\logo.png"
             alt="a logo of a mule with a box"
           ></img>
           <h2 className="site-title">Pack Mule</h2>
