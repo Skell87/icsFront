@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "./Context";
-import Select from "react-dropdown-select";
 import {
   addItem,
   getSection,
@@ -11,9 +10,7 @@ import {
   updateInventoryItem,
 } from "./api";
 import DeletePopup from "./DeletePopup";
-import UpdatePrompt from "./UpdatePopup";
 import UpdatePopup from "./UpdatePopup";
-import { Axios } from "axios";
 
 const ManageInventory = () => {
   const [name, setName] = useState("");
@@ -33,12 +30,20 @@ const ManageInventory = () => {
   const [selectedSubSubSection, setSelectedSubSubSection] = useState("");
 
   const [inventoryItems, setInventoryItems] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredItems, setFilteredItems] = useState([]);
+
+  const [sortField, setSortField] = useState("");
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [activeSortField, setActiveSortField] = useState("");
 
   const { auth } = useContext(AuthContext);
 
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [showUpdatePopup, setShowUpdatePopup] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     console.log("useeffect triggered");
@@ -52,6 +57,17 @@ const ManageInventory = () => {
         console.error("error getting section", error);
       });
   }, [auth]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize(); // Set initial state
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     if (selectedSection) {
@@ -91,20 +107,68 @@ const ManageInventory = () => {
     if (auth) {
       fetchInventoryItems();
     }
-    // getInventoryItems({ auth })
-    //   .then((data) => {
-    //     setInventoryItems(data);
-    //   })
-    //   .catch((error) => {
-    //     console.error("error fetching items", error);
-    //   });
   }, [auth]);
+
+  useEffect(() => {
+    let filtered = inventoryItems;
+
+    if (searchTerm) {
+      filtered = filtered.filter((item) =>
+        item.inventory_item.name
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())
+      );
+    }
+
+    setFilteredItems(filtered);
+  }, [searchTerm, inventoryItems]);
+
+  useEffect(() => {
+    if (sortField) {
+      const sortedItems = [...filteredItems].sort((a, b) => {
+        let aValue, bValue;
+
+        if (sortField === "quantity") {
+          aValue = a[sortField];
+          bValue = b[sortField];
+        } else if (
+          sortField.includes("section") ||
+          sortField.includes("sub_section") ||
+          sortField.includes("sub_sub_section")
+        ) {
+          const [primaryField, ...subFields] = sortField.split(".");
+          aValue = subFields.reduce(
+            (obj, field) => obj[field],
+            a[primaryField]
+          );
+          bValue = subFields.reduce(
+            (obj, field) => obj[field],
+            b[primaryField]
+          );
+        } else {
+          aValue = a.inventory_item[sortField];
+          bValue = b.inventory_item[sortField];
+        }
+
+        if (aValue < bValue) {
+          return sortOrder === "asc" ? -1 : 1;
+        }
+        if (aValue > bValue) {
+          return sortOrder === "asc" ? 1 : -1;
+        }
+        return 0;
+      });
+
+      setFilteredItems(sortedItems);
+    }
+  }, [sortField, sortOrder]);
 
   const fetchInventoryItems = () => {
     getInventoryItems({ auth })
       .then((data) => {
         console.log("HERE WE BE WITH INVENTORY THREE: ", data);
         setInventoryItems(data);
+        setFilteredItems(data);
       })
       .catch((error) => {
         console.error("Error fetching inventory items:", error);
@@ -113,7 +177,7 @@ const ManageInventory = () => {
 
   const handleSubmitInventoryItem = (e) => {
     console.log("button pressed");
-    e.preventDefault();
+
     console.log("Selected Sub Sub Section ID:", selectedSubSubSection);
     addItem({
       auth,
@@ -136,6 +200,7 @@ const ManageInventory = () => {
       setSelectedSubSection("");
       setSelectedSubSubSection("");
       fetchInventoryItems();
+      setShowPopup(false);
     });
   };
 
@@ -171,24 +236,6 @@ const ManageInventory = () => {
     setShowUpdatePopup(true);
   };
 
-  // const handleConfirmUpdate = (updatedItem) => {
-  //   console.log("Data to be sent:", updatedItem);
-  //   updateInventoryItem({
-  //     auth,
-  //     item: {
-  //       ...updatedItem,
-  //       subsubsection: parseInt(updatedItem.subSubSection),
-  //     },
-  //   })
-  //     .then(() => {
-  //       fetchInventoryItems();
-  //       setShowUpdatePopup(false);
-  //     })
-  //     .catch((error) => {
-  //       console.error("error updating invenrory item", error);
-  //     });
-  // };
-
   const handleConfirmUpdate = (updatedItem) => {
     console.log("Data to be sent:", updatedItem);
     console.log("subsubsection before parse:", updatedItem.subsubsection);
@@ -197,164 +244,286 @@ const ManageInventory = () => {
     console.log("parsed subsubsection id", subSubSectionId);
     updateInventoryItem({
       auth,
-      itemId: updatedItem.id, // Correctly passing itemId as a separate parameter
+      itemId: updatedItem.id,
       updates: {
         ...updatedItem,
         subsubsection: subSubSectionId,
       },
     })
       .then(() => {
-        fetchInventoryItems(); // Refresh the inventory items displayed
-        setShowUpdatePopup(false); // Close the update popup
+        fetchInventoryItems();
+        setShowUpdatePopup(false);
       })
       .catch((error) => {
         console.error("error updating inventory item", error);
       });
   };
 
-  // ==========================================================
+  const handleMoreInfo = (item) => {
+    setCurrentItem(item);
+    setShowUpdatePopup(true);
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleSort = (field) => {
+    const newSortOrder =
+      sortField === field && sortOrder === "asc" ? "desc" : "asc";
+    setSortField(field);
+    setSortOrder(newSortOrder);
+    setActiveSortField(field);
+  };
+
+  const renderMobileView = () => (
+    <div className="mobile-view">
+      {filteredItems.length > 0 &&
+        filteredItems.map((item) => (
+          <div key={item.id} className="mobile-tile">
+            <div className="tile-header">
+              <span>
+                {item.inventory_item.name}.<br></br>
+              </span>
+              <span>Quantity: {item.quantity}</span>
+            </div>
+            <div className="tile-body">
+              <div>{item.sub_sub_section.sub_section.section.name}, </div>
+              <div>{item.sub_sub_section.sub_section.name}, </div>
+              <div>{item.sub_sub_section.name}.</div>
+            </div>
+            <button
+              className="more-info-button"
+              onClick={() => handleMoreInfo(item)}
+            >
+              ...
+            </button>
+          </div>
+        ))}
+    </div>
+  );
+
+  const renderDesktopView = () => (
+    <div className="desktop-view">
+      <table>
+        <thead>
+          <tr className="responsive-text">
+            <th
+              onClick={() => handleSort("name")}
+              className={activeSortField === "name" ? "active-sort" : ""}
+            >
+              Name
+            </th>
+            <th
+              onClick={() => handleSort("make")}
+              className={activeSortField === "make" ? "active-sort" : ""}
+            >
+              Make
+            </th>
+            <th
+              onClick={() => handleSort("Model")}
+              className={activeSortField === "Model" ? "active-sort" : ""}
+            >
+              Model
+            </th>
+            <th
+              onClick={() => handleSort("color")}
+              className={activeSortField === "color" ? "active-sort" : ""}
+            >
+              color
+            </th>
+            <th
+              onClick={() =>
+                handleSort("sub_sub_section.sub_section.section.name")
+              }
+              className={
+                activeSortField === "sub_sub_section.sub_section.section.name"
+                  ? "active-sort"
+                  : ""
+              }
+            >
+              Area
+            </th>
+            <th
+              onClick={() => handleSort("sub_sub_section.sub_section.name")}
+              className={
+                activeSortField === "sub_sub_section.sub_section.name"
+                  ? "active-sort"
+                  : ""
+              }
+            >
+              Division
+            </th>
+            <th
+              onClick={() => handleSort("sub_sub_section.name")}
+              className={
+                activeSortField === "sub_sub_section.name" ? "active-sort" : ""
+              }
+            >
+              Sub-Division
+            </th>
+            <th
+              onClick={() => handleSort("quantity")}
+              className={activeSortField === "quantity" ? "active-sort" : ""}
+            >
+              Quantity
+            </th>
+            <th
+              onClick={() => handleSort("notes")}
+              className={activeSortField === "notes" ? "active-sort" : ""}
+            >
+              Notes
+            </th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredItems.length > 0 &&
+            filteredItems.map((item) => (
+              <tr className="responsive-text" key={item.id}>
+                <td>{item.inventory_item.name}</td>
+                <td>{item.inventory_item.make}</td>
+                <td>{item.inventory_item.model}</td>
+                <td>{item.inventory_item.color}</td>
+                <td>{item.sub_sub_section.sub_section.section.name}</td>
+                <td>{item.sub_sub_section.sub_section.name}</td>
+                <td>{item.sub_sub_section.name}</td>
+                <td>{item.quantity}</td>
+                <td>{item.inventory_item.notes}</td>
+                <td>
+                  <button onClick={() => handleUpdateClick(item)}>
+                    Update
+                  </button>
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+    </div>
+  );
 
   return (
-    <div>
+    <div className="MI-text">
+      <button
+        className="manage-inventory-add-button"
+        onClick={() => setShowPopup(true)}
+      >
+        Add Item
+      </button>
       <div>
-        <label>name:</label>
         <input
+          className="search-box"
           type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          placeholder="Search by Name."
+          value={searchTerm}
+          onChange={handleSearchChange}
         />
       </div>
-      <div>
-        <label>make:</label>
-        <input
-          type="text"
-          value={make}
-          onChange={(e) => setMake(e.target.value)}
-        />
-      </div>
-      <div>
-        <label>model:</label>
-        <input
-          type="text"
-          value={model}
-          onChange={(e) => setModel(e.target.value)}
-        />
-      </div>
-      <div>
-        <label>color:</label>
-        <input
-          type="text"
-          value={color}
-          onChange={(e) => setColor(e.target.value)}
-        />
-      </div>
-      <div>
-        <label>notes:</label>
-        <input
-          type="text"
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
-        />
-      </div>
-      <div>
-        <label>quantity:</label>
-        <input
-          type="number"
-          value={quantity}
-          onChange={(e) => setQuantity(parseInt(e.target.value))}
-        />
-      </div>
-      <div>
-        <label>section</label>
-        <select
-          value={selectedSection}
-          onChange={(e) => setSelectedSection(e.target.value)}
-        >
-          <option value="">Select a warehouse</option>
-          {sections.map((section) => (
-            <option key={section.id} value={section.id}>
-              {section.name}
-            </option>
-          ))}
-        </select>
-      </div>
-      {selectedSection && (
-        <div>
-          <label>Subsection:</label>
-          <select
-            value={selectedSubSection}
-            onChange={(e) => setSelectedSubSection(e.target.value)}
-          >
-            <option value="">Select a subsection</option>
-            {subSections.map((subSection) => (
-              <option key={subSection.id} value={subSection.id}>
-                {subSection.name}
-              </option>
-            ))}
-          </select>
+      {showPopup && (
+        <div className="popup">
+          <div className="popup-inner">
+            <div>
+              <label>name:</label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div>
+              <label>make:</label>
+              <input
+                type="text"
+                value={make}
+                onChange={(e) => setMake(e.target.value)}
+              />
+            </div>
+            <div>
+              <label>model:</label>
+              <input
+                type="text"
+                value={model}
+                onChange={(e) => setModel(e.target.value)}
+              />
+            </div>
+            <div>
+              <label>color:</label>
+              <input
+                type="text"
+                value={color}
+                onChange={(e) => setColor(e.target.value)}
+              />
+            </div>
+            <div>
+              <label>notes:</label>
+              <input
+                type="text"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+              />
+            </div>
+            <div>
+              <label>quantity:</label>
+              <input
+                type="number"
+                value={quantity}
+                onChange={(e) => setQuantity(parseInt(e.target.value))}
+              />
+            </div>
+            <div>
+              <label>section</label>
+              <select
+                value={selectedSection}
+                onChange={(e) => setSelectedSection(e.target.value)}
+              >
+                <option value="">Select a warehouse</option>
+                {sections.map((section) => (
+                  <option key={section.id} value={section.id}>
+                    {section.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {selectedSection && (
+              <div>
+                <label>Subsection:</label>
+                <select
+                  value={selectedSubSection}
+                  onChange={(e) => setSelectedSubSection(e.target.value)}
+                >
+                  <option value="">Select a subsection</option>
+                  {subSections.map((subSection) => (
+                    <option key={subSection.id} value={subSection.id}>
+                      {subSection.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+            {selectedSubSection && (
+              <div>
+                <label>SubSubSection:</label>
+                <select
+                  value={selectedSubSubSection}
+                  onChange={(e) => setSelectedSubSubSection(e.target.value)}
+                >
+                  <option value="">Select a Sub Sub Section</option>
+                  {subSubSections.map((subSubSection) => (
+                    <option key={subSubSection.id} value={subSubSection.id}>
+                      {subSubSection.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+            <div className="inv-button-div">
+              <button onClick={handleSubmitInventoryItem}>Add Inventory</button>
+              <button onClick={() => setShowPopup(false)}>Close</button>
+            </div>
+          </div>
         </div>
       )}
-      {selectedSubSection && (
-        <div>
-          <label>SubSubSection:</label>
-          <select
-            value={selectedSubSubSection}
-            onChange={(e) => setSelectedSubSubSection(e.target.value)}
-          >
-            <option value="">Select a Sub Sub Section</option>
-            {subSubSections.map((subSubSection) => (
-              <option key={subSubSection.id} value={subSubSection.id}>
-                {subSubSection.name}
-              </option>
-            ))}
-          </select>
-        </div>
-      )}
-      <div>
-        <button onClick={handleSubmitInventoryItem}>Add Inventory</button>
-      </div>
-      <div>
-        <h1>Inventory Items</h1>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Make</th>
-              <th>Model</th>
-              <th>Color</th>
-              <th>section</th>
-              <th>subsection</th>
-              <th>SubSubSection</th>
-              <th>Quantity</th>
-              <th>Notes</th>
-            </tr>
-          </thead>
-          <tbody>
-            {inventoryItems.length > 0 &&
-              inventoryItems.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.inventory_item.name}</td>
-                  <td>{item.inventory_item.make}</td>
-                  <td>{item.inventory_item.model}</td>
-                  <td>{item.inventory_item.color}</td>
-                  <td>{item.sub_sub_section.sub_section.section.name}</td>
-                  <td>{item.sub_sub_section.sub_section.name}</td>
-                  <td>{item.sub_sub_section.name}</td>
-                  <td>{item.quantity}</td>
-                  <td>{item.inventory_item.notes}</td>
-                  <td>
-                    <button onClick={() => handleDeleteClick(item)}>
-                      Delete
-                    </button>
-                    <button onClick={() => handleUpdateClick(item)}>
-                      Update
-                    </button>
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
-      </div>
+      {isMobile ? renderMobileView() : renderDesktopView()}
       {showDeletePopup && (
         <DeletePopup
           item={currentItem}
@@ -367,6 +536,7 @@ const ManageInventory = () => {
           item={currentItem}
           onClose={() => setShowUpdatePopup(false)}
           onConfirmUpdate={handleConfirmUpdate}
+          fetchInventoryItems={fetchInventoryItems}
         />
       )}
     </div>
@@ -374,28 +544,3 @@ const ManageInventory = () => {
 };
 
 export default ManageInventory;
-
-// this is a selector for color that didnt seem to work as wanted.
-// i set an onchange text field to check to make sure im sending signal.
-{
-  /* <select>
-          <option value={color} onSelect={(e) => setColor(e.target.value)}>
-            Red
-          </option>
-          <option value={color} onSelect={(e) => setColor(e.target.value)}>
-            Orange
-          </option>
-          <option value={color} onSelect={(e) => setColor(e.target.value)}>
-            Yellow
-          </option>
-          <option value={color} onSelect={(e) => setColor(e.target.value)}>
-            Green
-          </option>
-          <option value={color} onSelect={(e) => setColor(e.target.value)}>
-            Blue
-          </option>
-          <option value={color} onSelect={(e) => setColor(e.target.value)}>
-            Purple
-          </option>
-        </select> */
-}
